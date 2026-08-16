@@ -42,7 +42,7 @@
                 
                 <div class="flex items-center">
                     <a href="/register" class="bg-[#2B2D26] hover:bg-[#1a1c17] text-white px-6 py-2.5 rounded-sm font-semibold tracking-wide transition shadow-lg">
-                        Register Now
+                        Register
                     </a>
                 </div>
                 
