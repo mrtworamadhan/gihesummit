@@ -189,11 +189,17 @@ new #[Layout('layouts::app')] class extends Component
         }
 
         $this->base_amount = $total;
-        $this->unique_code = rand(100, 999);
         
-        $this->final_amount = $this->is_international 
-            ? $total + ($this->unique_code / 100) 
-            : $total + $this->unique_code;
+        $regId = $registration->id; 
+
+        if ($this->payment_currency === 'USD') {
+            $cents = ($regId % 99) + 1;
+            $this->unique_code = round($cents / 100, 2); 
+        } else {
+            $this->unique_code = ($regId % 900) + 1;
+        }
+        
+        $this->final_amount = $this->base_amount + $this->unique_code;
     }
 
     public function submitFinal()
@@ -209,7 +215,7 @@ new #[Layout('layouts::app')] class extends Component
                 'base_amount' => $this->base_amount,
                 'unique_code' => $this->unique_code,
                 'final_amount' => $this->final_amount,
-                'payment_status' => 'pending_verification', // Atau 'unpaid' jika menunggu mereka upload resi
+                'payment_status' => 'pending_verification', 
             ]
         );
 
@@ -217,15 +223,20 @@ new #[Layout('layouts::app')] class extends Component
             ? 'Rp ' . number_format($this->final_amount, 0, ',', '.') 
             : '$ ' . number_format($this->final_amount, 2, '.', ',');
 
+        $formattedCode = $this->payment_currency === 'IDR'
+            ? sprintf('%03d', $this->unique_code) 
+            : '+$ ' . number_format($this->unique_code, 2, '.', '');
+
         $bankDetails = $this->payment_currency === 'IDR'
             ? "Bank: *BSI (Bank Syariah Indonesia)*\nNo. Rekening: *7353689268*\nAccount Name: *FORUM PESANTREN ALUMNI GONTOR*"
             : "Bank: *BSI (Bank Syariah Indonesia)*\nNo. Rekening: *7353689268*\nAccount Name: *FORUM PESANTREN ALUMNI GONTOR*";
 
         $dashboardUrl = route('participant.dashboard'); 
+        
         $pesan = "Hello *{$user->name}*,\n\n"
             . "Thank you for completing your registration for GIHES 2026. Here is your payment invoice:\n\n"
             . "Category: *" . ($this->is_international ? 'International' : 'Domestic') . "*\n"
-            . "Total Amount: *{$formattedAmount}* (Includes unique code: {$this->unique_code})\n\n"
+            . "Total Amount: *{$formattedAmount}* (Includes unique code: {$formattedCode})\n\n"
             . "Please transfer the exact amount to our official account:\n"
             . "{$bankDetails}\n\n"
             . "Once you have made the payment, please upload your transfer receipt to confirm your seat via your Participant Dashboard:\n"

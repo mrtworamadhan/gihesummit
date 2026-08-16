@@ -36,8 +36,15 @@ class PaymentsTable
                         'failed' => 'danger',
                         default => 'gray',
                     }),
+                TextColumn::make('currency')
+                    ->badge() 
+                    ->color(fn (string $state): string => match ($state) {
+                        'IDR' => 'warning',
+                        'USD' => 'success',
+                        default => 'gray',
+                    }),
                 TextColumn::make('final_amount')
-                    ->money('idr') // Sesuaikan jika ada USD
+                    ->numeric() 
                     ->sortable(),
                 TextColumn::make('payment_method')
                     ->label('Method'),
@@ -79,7 +86,7 @@ class PaymentsTable
                         if ($registration && $registration->room_id) {
                             $registration->room->checkAndLockAvailability();
                         }
-                        
+
                         $user = $registration->participant->user;
                         $noWa = $user->whatsapp;
                         

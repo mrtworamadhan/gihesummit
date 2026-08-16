@@ -55,7 +55,7 @@ new #[Layout('layouts::auth')] class extends Component
             </div>
         </div>
     @endif
-    
+
     <div class="bg-white rounded-md shadow-xl border border-[#E5E4DF] overflow-hidden">
         
         <div class="bg-[#12241C] p-6 md:p-8 text-center">
@@ -72,9 +72,22 @@ new #[Layout('layouts::auth')] class extends Component
                     @error('email') <span class="text-red-500 text-xs mt-1 block">{{ $message }}</span> @enderror
                 </div>
 
-                <div>
+                <div x-data="{ show: false }">
                     <label class="block text-sm font-bold text-gray-700 mb-1">Password</label>
-                    <input type="password" wire:model="password" class="w-full border border-gray-300 rounded px-4 py-3 focus:ring-2 focus:ring-[#C0A062] focus:border-transparent outline-none transition-all" placeholder="Enter your password">
+                    <div class="relative">
+                        <input :type="show ? 'text' : 'password'" wire:model="password" class="w-full border border-gray-300 rounded pl-4 pr-10 py-3 focus:ring-2 focus:ring-[#C0A062] focus:border-transparent outline-none transition-all" placeholder="Enter your password">
+                        
+                        <button type="button" @click="show = !show" class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-[#C0A062] focus:outline-none transition-colors">
+                            <svg x-show="!show" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                            </svg>
+                            <svg x-show="show" x-cloak class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7a10.05 10.05 0 011.5-2.5m1.5-2.5A10.046 10.046 0 0112 5c4.478 0 8.268 2.943 9.542 7a10.04 10.04 0 01-1.5 2.5m-1.5 2.5A9.95 9.95 0 0112 19m-3-3l6-6" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3l18 18" />
+                            </svg>
+                        </button>
+                    </div>
                     @error('password') <span class="text-red-500 text-xs mt-1 block">{{ $message }}</span> @enderror
                 </div>
 

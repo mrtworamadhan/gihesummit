@@ -45,11 +45,10 @@ class ListRegistrations extends ListRecords
                     $query->whereHas('payment', function ($query) {
                         $query->where('payment_status', 'pending_verification');
                     })
-                    ->where('is_requested_confirmation', true)
                 )
                 ->badgeColor('info')->badge($this->getModel()::whereHas('payment', function ($query) {
                     $query->where('payment_status', 'pending_verification');
-                })->where('is_requested_confirmation', true)->count()),
+                })->count()),
 
             'approved' => Tab::make('Approved')
                 ->modifyQueryUsing(fn (Builder $query) => 
