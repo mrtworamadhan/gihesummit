@@ -5,8 +5,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::livewire('/register', 'pages::auth.register')->name('auth.register');
-Route::livewire('/login', 'pages::auth.login')->name('auth.login');
+
+Route::middleware(['guest'])->group(function () {
+    Route::livewire('/register', 'pages::auth.register')->name('auth.register');
+    Route::livewire('/login', 'pages::auth.login')->name('auth.login');
+});
 
 Route::middleware('auth')->group(function () {
     Route::livewire('/panel', 'pages::participant.dashboard')->name('participant.dashboard');

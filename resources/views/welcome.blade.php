@@ -28,7 +28,7 @@
 </head>
 <body class="font-sans antialiased text-[#1B1B1B] bg-[#F4F3EF]">
 
-    <header class="fixed w-full bg-[#F4F3EF]/90 backdrop-blur-sm z-50 border-b border-[#E5E4DF]">
+    <header class="fixed w-full bg-white/90 backdrop-blur-sm z-50 border-b border-[#E5E4DF]">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-24">
                 
@@ -41,9 +41,15 @@
                 </div>
                 
                 <div class="flex items-center">
-                    <a href="/register" class="bg-[#2B2D26] hover:bg-[#1a1c17] text-white px-6 py-2.5 rounded-sm font-semibold tracking-wide transition shadow-lg">
-                        Register
-                    </a>
+                    @auth
+                        <a href="/panel" class="bg-[#2B2D26] hover:bg-[#1a1c17] text-white px-6 py-2.5 rounded-sm font-semibold tracking-wide transition shadow-lg">
+                            Dashboard Panel
+                        </a>
+                    @else
+                        <a href="/register" class="bg-[#2B2D26] hover:bg-[#1a1c17] text-white px-6 py-2.5 rounded-sm font-semibold tracking-wide transition shadow-lg">
+                            Register
+                        </a>
+                    @endauth
                 </div>
                 
             </div>

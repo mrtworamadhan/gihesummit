@@ -31,8 +31,14 @@
                 
                 <div class="flex items-center gap-3 md:gap-4 shrink-0">
                     <a href="/" class="flex items-center gap-3 group">
-                        <img src="{{ asset('images/logo-gihes.png') }}" alt="GIHES" class="h-8 md:h-10 w-auto group-hover:scale-105 transition-transform" onerror="this.outerHTML='<div class=\'h-8 w-16 bg-gray-200 flex items-center justify-center text-[10px] rounded\'>LOGO</div>'">
-                        
+                        <div class="flex items-center gap-4 md:gap-6">
+                            <img src="{{ asset('images/logo-100-gontor.png') }}" alt="100 Tahun Gontor" class="h-10 md:h-10 w-auto object-contain min-w-[60px]" onerror="this.outerHTML='<div class=\'h-12 w-20 bg-gray-200 border border-gray-300 flex items-center justify-center text-[10px] text-gray-500 rounded\'>Logo 100Th</div>'">
+                            
+                            <div class="h-10 w-[1px] bg-[#8C8A7D]"></div>
+                            
+                            <img src="{{ asset('images/logo-gihes.png') }}" alt="GIHES 2026" class="h-10 md:h-10 w-auto object-contain min-w-[100px]" onerror="this.outerHTML='<div class=\'h-12 w-28 bg-gray-200 border border-gray-300 flex items-center justify-center text-[10px] text-gray-500 rounded\'>Logo GIHES</div>'">
+                        </div>
+
                         <div class="hidden sm:block h-6 w-px bg-gray-300"></div>
                         
                         <div class="hidden sm:block">
