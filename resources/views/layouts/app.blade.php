@@ -4,6 +4,22 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Dashboard | GIHES 2026</title>
+
+    <meta name="description" content="Participant Portal GIHES 2026.">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:title" content="Dashboard | GIHES 2026">
+    <meta property="og:description" content="Participant Portal GIHES 2026. Kelola registrasi dan akomodasi Anda di sini.">
+    <meta property="og:image" content="{{ asset('images/logo-gihes.png') }}">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:url" content="{{ url()->current() }}">
+    <meta name="twitter:title" content="Dashboard | GIHES 2026">
+    <meta name="twitter:description" content="Participant Portal GIHES 2026. Kelola registrasi dan akomodasi Anda di sini.">
+    <meta name="twitter:image" content="{{ asset('images/logo-gihes.png') }}">
+
+    <link rel="icon" type="image/png" href="{{ asset('images/logo-gihes.png') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-[#F4F3EF] font-sans text-[#1B1B1B] antialiased" x-data="{ sidebarOpen: false }">

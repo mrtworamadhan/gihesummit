@@ -3,7 +3,26 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>GIHES 2026 | Global Islamic Holistic Education Summit</title>
+    <title>GIHES 2026 - Global Islamic Higher Education Summit</title>
+    <meta name="description" content="Join the Global Islamic Higher Education Summit (GIHES) 2026. Empowering Islamic higher education through technology, innovation, and global collaboration.">
+    <meta name="keywords" content="GIHES 2026, Islamic Education, Higher Education, Conference, Summit 2026, Laravel, Futsal Cup">
+    <meta name="author" content="Salaka Tech">
+
+    <link rel="icon" type="image/png" href="{{ asset('images/favicon.png') }}">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:title" content="GIHES 2026 - Global Islamic Higher Education Summit">
+    <meta property="og:description" content="Register now for GIHES 2026. Connect with global leaders in Islamic Higher Education.">
+    <meta property="og:image" content="{{ asset('images/og-share-gihes.jpg') }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="{{ url()->current() }}">
+    <meta name="twitter:title" content="GIHES 2026 - Global Islamic Higher Education Summit">
+    <meta name="twitter:description" content="Register now for GIHES 2026. Connect with global leaders in Islamic Higher Education.">
+    <meta name="twitter:image" content="{{ asset('images/og-share-gihes.jpg') }}">
     
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
