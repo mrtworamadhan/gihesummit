@@ -1,9 +1,18 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Models\Video;
+use App\Models\News;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::get('/', function () {
+    $videos = Video::where('is_active', true)->latest()->take(1)->get(); 
+    $news = News::where('is_active', true)->latest()->get();   
+
+    return view('welcome', compact('videos', 'news'));
 });
 
 Route::middleware(['guest'])->group(function () {

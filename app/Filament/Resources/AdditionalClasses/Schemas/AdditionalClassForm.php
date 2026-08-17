@@ -2,8 +2,10 @@
 
 namespace App\Filament\Resources\AdditionalClasses\Schemas;
 
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TimePicker;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
@@ -53,6 +55,28 @@ class AdditionalClassForm
                             ->rows(3)
                             ->columnSpanFull(),
                     ])->columns(2),
+                Section::make('Jadwal & Lokasi Kelas')
+                    ->schema([
+                        Select::make('day')
+                            ->label('Hari Pelaksanaan')
+                            ->options([
+                                'Day 1' => 'Day 1',
+                                'Day 2' => 'Day 2',
+                                'Day 3' => 'Day 3',
+                            ])
+                            ->required(),
+                            
+                        TimePicker::make('time')
+                            ->label('Jam / Waktu')
+                            ->displayFormat('H:i') 
+                            ->required(),
+                            
+                        TextInput::make('location')
+                            ->label('Lokasi / Ruangan')
+                            ->placeholder('Misal: Meeting Room A')
+                            ->required()
+                            ->maxLength(255),
+                    ])->columns(3),
             ]);
     }
 }

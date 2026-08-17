@@ -25,6 +25,22 @@
     <meta name="twitter:image" content="{{ asset('images/og-share-gihes.jpg') }}">
     
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <style>
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #C0A062; 
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #a3854d; 
+        }
+    </style>
 </head>
 <body class="font-sans antialiased text-[#1B1B1B] bg-[#F4F3EF]">
 
@@ -512,6 +528,76 @@
 
             </div>
 
+        </div>
+    </section>
+
+    <section class="py-16 bg-gray-50 border-t border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                
+                <div>
+                    <h2 class="text-2xl font-black text-[#1B1B1B] uppercase tracking-wide mb-6 border-l-4 border-[#C0A062] pl-3">
+                        GIHES Documentation
+                    </h2>
+                    <div class="space-y-6">
+                        @forelse($videos as $video)
+                            <div class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-200">
+                                <div class="aspect-w-16 aspect-h-9">
+                                    <iframe class="w-full h-64 md:h-80" src="{{ $video->youtube_url }}" title="{{ $video->title }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                </div>
+                                <div class="p-4">
+                                    <h3 class="font-bold text-gray-900">{{ $video->title }}</h3>
+                                </div>
+                            </div>
+                        @empty
+                            <p class="text-gray-500 italic">No documentation videos available yet.</p>
+                        @endforelse
+                    </div>
+                </div>
+
+                <div>
+                    <h2 class="text-2xl font-black text-[#1B1B1B] uppercase tracking-wide mb-6 border-l-4 border-[#5A6446] pl-3">
+                        In The News
+                    </h2>
+                    
+                    <div class="space-y-4 max-h-[600px] overflow-y-auto pr-3 custom-scrollbar">
+                        @forelse($news as $item)
+                            <a href="{{ $item->external_url }}" target="_blank" class="block bg-white rounded-xl shadow-sm border border-gray-200 hover:border-[#C0A062] hover:shadow-md transition-all duration-300 overflow-hidden group">
+                                <div class="flex items-center">
+                                    <div class="w-1/3 h-32 shrink-0 bg-gray-100 relative overflow-hidden">
+                                        @if($item->image_path)
+                                            @php
+                                                $imageUrl = str_starts_with($item->image_path, 'http') 
+                                                    ? $item->image_path 
+                                                    : asset('storage/' . $item->image_path);
+                                            @endphp
+                                            <img src="{{ $imageUrl }}" alt="{{ $item->title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                        @else
+                                            <div class="w-full h-full flex items-center justify-center text-gray-400">
+                                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path></svg>
+                                            </div>
+                                        @endif
+                                    </div>
+                                    
+                                    <div class="w-2/3 p-4">
+                                        <span class="text-[10px] font-black text-[#5A6446] uppercase tracking-widest mb-1 block">{{ $item->publisher_name }}</span>
+                                        <h3 class="font-bold text-gray-900 leading-tight group-hover:text-[#C0A062] transition-colors line-clamp-3">
+                                            {{ $item->title }}
+                                        </h3>
+                                        <span class="text-xs text-gray-400 mt-2 block flex items-center gap-1">
+                                            Read Article <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                                        </span>
+                                    </div>
+                                </div>
+                            </a>
+                        @empty
+                            <p class="text-gray-500 italic">No news updates available yet.</p>
+                        @endforelse
+                    </div>
+                </div>
+
+            </div>
         </div>
     </section>
 

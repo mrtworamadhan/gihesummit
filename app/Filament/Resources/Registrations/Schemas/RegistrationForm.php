@@ -9,7 +9,9 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
+use Illuminate\Database\Eloquent\Builder;
 
 class RegistrationForm
 {
@@ -134,20 +136,30 @@ class RegistrationForm
                     ]),
 
                 Section::make('Accommodation & Room Assignment')
-                    ->description('Admin dapat memindahkan/menukar kamar peserta di sini.')
+                    ->description('Admin dapat menempatkan (assign) atau memindahkan kamar peserta di sini.')
                     ->icon('heroicon-o-building-office-2')
                     ->collapsed() 
                     ->schema([
+                        TextInput::make('room_type_preference')
+                            ->label('Tipe Kamar (Pilihan Peserta)')
+                            ->disabled(),
+                            
                         Select::make('room_id')
-                            ->relationship('room', 'room_number')
-                            ->label('Assigned Room (Otomatis dari Wizard)')
+                            ->label('Assign Room Number')
+                            ->relationship(
+                                name: 'room', 
+                                titleAttribute: 'room_number',
+                                modifyQueryUsing: fn (Builder $query, Get $get) => $query
+                                    ->where('type', $get('room_type_preference'))
+                                    ->where('is_available', true) 
+                            )
                             ->searchable()
                             ->preload()
-                            ->helperText('Pilih kamar baru jika ada permintaan tukar kamar.'),
+                            ->helperText('Opsi kamar otomatis menyesuaikan tipe pilihan peserta di atas.'),
                             
                         Toggle::make('needs_accommodation_assist')
                             ->label('Needs Accommodation Assistance?'),
-                    ])->columns(2),
+                    ])->columns(3),
 
                 
                 Section::make('Logistics & Travel Itinerary')

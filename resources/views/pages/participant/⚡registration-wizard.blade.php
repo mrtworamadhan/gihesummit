@@ -29,7 +29,8 @@ new #[Layout('layouts::app')] class extends Component
     // STEP 2
     public $departure_city_country, $estimated_arrival, $estimated_departure;
     public $tour_guide_needed = false; 
-    public $room_type, $selected_room_id; 
+    public $room_type; 
+    public $selected_room_type;
     public $needs_accommodation_assist = 1, $requires_visa_letter = 0;
     public $dietary_restrictions, $accessibility_needs;
 
@@ -80,8 +81,8 @@ new #[Layout('layouts::app')] class extends Component
                 $this->accessibility_needs = $reg->accessibility_needs;
                 $this->tour_guide_needed = $reg->tour_guide_needed;
                 
-                $this->room_type = $reg->room_type;
-                $this->selected_room_id = $reg->room_id;
+                $this->room_type = $reg->room_type_preference;
+                // $this->selected_room_id = $reg->room_id;
 
                 // Load Riwayat File & Kelas (STEP 3)
                 $this->mandate_letter = $reg->mandate_letter_path; 
@@ -143,8 +144,8 @@ new #[Layout('layouts::app')] class extends Component
                     'departure_city_country' => $this->departure_city_country,
                     'estimated_arrival' => $this->estimated_arrival, 
                     'estimated_departure' => $this->estimated_departure, 
-                    'room_type' => $this->room_type,
-                    'room_id' => $this->selected_room_id,
+                    'room_type_preference' => $this->room_type,
+                    // 'room_id' => $this->selected_room_id,
                     'needs_accommodation_assist' => $this->needs_accommodation_assist,
                     'requires_visa_letter' => $this->requires_visa_letter,
                     'dietary_restrictions' => $this->dietary_restrictions,
@@ -178,9 +179,15 @@ new #[Layout('layouts::app')] class extends Component
         $this->payment_currency = $this->is_international ? 'USD' : 'IDR';
         $total = 0;
 
-        $room = Room::find($this->selected_room_id);
-        if ($room) {
-            $total += $this->is_international ? $room->price_usd : $room->price_idr;
+        // $room = Room::find($this->selected_room_id);
+        // if ($room) {
+        //     $total += $this->is_international ? $room->price_usd : $room->price_idr;
+        // }
+        if ($this->selected_room_type) {
+            $roomPattern = Room::where('type', $this->selected_room_type)->first();
+            if ($roomPattern) {
+                $total += $this->is_international ? $roomPattern->price_usd : $roomPattern->price_idr;
+            }
         }
 
         $classes = AdditionalClass::whereIn('id', $this->selected_classes)->get();
@@ -207,6 +214,10 @@ new #[Layout('layouts::app')] class extends Component
         $user = Auth::user();
         $registration = $user->participant->registration;
         
+        $registration->update([
+            'room_id' => null, 
+            'room_type_preference' => $this->selected_room_type,
+        ]);
         Payment::updateOrCreate(
             ['registration_id' => $registration->id],
             [
@@ -371,14 +382,14 @@ new #[Layout('layouts::app')] class extends Component
                                         <select wire:model.live="role_at_summit" class="w-full border border-gray-300 rounded-sm px-4 py-3 focus:ring-2 focus:ring-[#C0A062] bg-white">
                                             <option value="">-- Select Role --</option>
                                             <option value="Participant">Participant</option>
-                                            <option value="Speaker">Speaker</option>
+                                            <!-- <option value="Speaker">Speaker</option>
                                             <option value="Exhibitor">Exhibitor (Institutional Showcase)</option>
                                             <option value="Media">Media</option>
-                                            <option value="Partner/Sponsor">Partner / Sponsor</option>
+                                            <option value="Partner/Sponsor">Partner / Sponsor</option> -->
                                         </select>
                                     </div>
 
-                                    @if($role_at_summit === 'Exhibitor')
+                                    <!-- @if($role_at_summit === 'Exhibitor')
                                     <div class="animate-fade-in-up">
                                         <label class="block text-sm font-bold text-gray-700 mb-2">Institutional Showcase Category <span class="text-red-500">*</span></label>
                                         <select wire:model="showcase_category" class="w-full border border-gray-300 rounded-sm px-4 py-3 focus:ring-2 focus:ring-[#C0A062] bg-white">
@@ -390,7 +401,7 @@ new #[Layout('layouts::app')] class extends Component
                                             <option value="Entrepreneurship">Entrepreneurship</option>
                                         </select>
                                     </div>
-                                    @endif
+                                    @endif -->
                                 </div>
 
                                 <div class="grid grid-cols-1 gap-8 mt-6">
@@ -475,16 +486,7 @@ new #[Layout('layouts::app')] class extends Component
                                     @error('departure_city_country') <span class="text-red-500 text-xs mt-1 block">{{ $message }}</span> @enderror
                                 </div>
 
-                                <div>
-                                    <label class="block text-sm font-bold text-gray-700 mb-2">Estimated Arrival <span class="text-red-500">*</span></label>
-                                    <input type="datetime-local" wire:model="estimated_arrival" class="w-full border border-gray-300 rounded-sm px-4 py-3 focus:ring-2 focus:ring-[#C0A062] outline-none">
-                                    @error('estimated_arrival') <span class="text-red-500 text-xs mt-1 block">{{ $message }}</span> @enderror
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-bold text-gray-700 mb-2">Estimated Departure <span class="text-red-500">*</span></label>
-                                    <input type="datetime-local" wire:model="estimated_departure" class="w-full border border-gray-300 rounded-sm px-4 py-3 focus:ring-2 focus:ring-[#C0A062] outline-none">
-                                    @error('estimated_departure') <span class="text-red-500 text-xs mt-1 block">{{ $message }}</span> @enderror
-                                </div>
+                                
                             </div>
 
                             @if($is_international)
@@ -504,11 +506,11 @@ new #[Layout('layouts::app')] class extends Component
                                 
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                                     <label class="relative cursor-pointer group">
-                                        <input type="radio" wire:model.live="room_type" value="Single" class="peer sr-only">
+                                        <input type="radio" wire:model.live="selected_room_type" value="Single" class="peer sr-only">
                                         <div class="border-2 rounded-lg p-5 transition-all duration-200 border-gray-200 hover:bg-gray-50 peer-checked:border-[#C0A062] peer-checked:bg-[#C0A062]/10">
                                             <div class="flex justify-between items-center">
                                                 <div>
-                                                    <span class="block font-black text-lg text-gray-900">Single Room</span>
+                                                    <span class="block font-black text-lg text-gray-900">Single Bed</span>
                                                     <span class="block text-sm text-gray-500 mt-1">1 King Bed / Private</span>
                                                 </div>
                                                 <div class="text-right">
@@ -524,12 +526,12 @@ new #[Layout('layouts::app')] class extends Component
                                     </label>
 
                                     <label class="relative cursor-pointer group">
-                                        <input type="radio" wire:model.live="room_type" value="Twin" class="peer sr-only">
+                                        <input type="radio" wire:model.live="selected_room_type" value="Twin" class="peer sr-only">
                                         <div class="border-2 rounded-lg p-5 transition-all duration-200 border-gray-200 hover:bg-gray-50 peer-checked:border-[#C0A062] peer-checked:bg-[#C0A062]/10">
                                             <div class="flex justify-between items-center">
                                                 <div>
-                                                    <span class="block font-black text-lg text-gray-900">Twin Room</span>
-                                                    <span class="block text-sm text-gray-500 mt-1">2 Single Beds / Shared</span>
+                                                    <span class="block font-black text-lg text-gray-900">Twin Beds</span>
+                                                    <span class="block text-sm text-gray-500 mt-1">2 Beds / Shared</span>
                                                 </div>
                                                 <div class="text-right">
                                                     <span class="block font-bold text-[#5A6446]">Rp 3.000.000</span>
@@ -543,38 +545,15 @@ new #[Layout('layouts::app')] class extends Component
                                         </div>
                                     </label>
                                 </div>
-                                @error('room_type') <span class="text-red-500 text-xs block mb-4">{{ $message }}</span> @enderror
+                                @error('selected_room_type') <span class="text-red-500 text-xs block mb-4">{{ $message }}</span> @enderror
 
-                                @if($room_type)
-                                    <h4 class="text-sm font-bold text-gray-700 mb-3">Select Available {{ $room_type }} Room <span class="text-red-500">*</span></h4>
-                                    
-                                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                                        @foreach($this->availableRooms as $room)
-                                            <label class="relative cursor-pointer group">
-                                                <input type="radio" wire:model="selected_room_id" value="{{ $room->id }}" class="peer sr-only">
-                                                
-                                                <div class="h-full border rounded-md p-4 transition-all duration-200 relative overflow-hidden border-gray-300 hover:border-[#C0A062] peer-checked:border-[#5A6446] peer-checked:ring-2 peer-checked:ring-[#5A6446] peer-checked:bg-[#5A6446]/5">
-                                                    
-                                                    <div class="absolute top-0 right-0 bg-[#5A6446] text-white p-1 rounded-bl-lg opacity-0 peer-checked:opacity-100 transition-opacity shadow-sm">
-                                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
-                                                    </div>
-
-                                                    <span class="block font-bold text-gray-900 text-lg">{{ $room->room_number }}</span>
-                                                    
-                                                    @if($room->type == 'Twin' && $room->booked_count == 1)
-                                                        @php
-                                                            $roommateName = $room->registrations->first()?->participant?->user?->name ?? 'Another Guest';
-                                                        @endphp
-                                                        <span class="block text-xs font-bold text-orange-600 mt-2 bg-orange-100 px-2 py-1 rounded inline-block">1 Bed Left</span>
-                                                        <span class="block text-[10px] text-gray-600 mt-1 truncate" title="w/ {{ $roommateName }}">w/ {{ $roommateName }}</span>
-                                                    @else
-                                                        <span class="block text-xs font-bold text-green-600 mt-2 bg-green-100 px-2 py-1 rounded inline-block">Available</span>
-                                                    @endif
-                                                </div>
-                                            </label>
-                                        @endforeach
+                                @if($selected_room_type)
+                                    <div class="animate-fade-in-up bg-blue-50 p-4 rounded-md border border-blue-200 flex items-start gap-3">
+                                        <svg class="w-5 h-5 text-blue-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                        <p class="text-sm text-blue-800 leading-relaxed">
+                                            <strong>Room Assignment:</strong> Your room number will be assigned by the organizing committee. The exact room details will be updated on your dashboard prior to the event.
+                                        </p>
                                     </div>
-                                    @error('selected_room_id') <span class="text-red-500 text-xs mt-2 block">{{ $message }}</span> @enderror
                                 @endif
                             </div>
 
@@ -601,6 +580,11 @@ new #[Layout('layouts::app')] class extends Component
                                             <div>
                                                 <span class="block font-bold text-gray-900 group-hover:text-[#5A6446] transition-colors">{{ $class->name }}</span>
                                                 <span class="block text-xs text-gray-500 mt-1 leading-relaxed">{{ $class->description }}</span>
+                                                <p class="text-sm text-gray-500">
+                                                    <i class="heroicon-o-calendar"></i> {{ $class->day }} | 
+                                                    <i class="heroicon-o-clock"></i> {{ \Carbon\Carbon::parse($class->time)->format('H:i') }} | 
+                                                    <i class="heroicon-o-map-pin"></i> {{ $class->location }}
+                                                </p>
                                             </div>
                                             
                                             <div class="shrink-0 text-right">
@@ -688,13 +672,13 @@ new #[Layout('layouts::app')] class extends Component
                                             
                                             <tr>
                                                 <td class="py-4">
-                                                    <p class="font-bold text-gray-900">Accommodation: {{ $room_type }} Room</p>
+                                                    <p class="font-bold text-gray-900">Accommodation: {{ $room_type }}</p>
                                                     <p class="text-xs text-gray-500 mt-0.5">Duration of the summit</p>
                                                 </td>
                                                 <td class="py-4 text-right font-medium text-gray-900">
                                                     @php
-                                                        $room = Room::find($selected_room_id);
-                                                        $roomPrice = $is_international ? ($room->price_usd ?? 0) : ($room->price_idr ?? 0);
+                                                        $roomPattern = \App\Models\Room::where('type', $selected_room_type)->first();
+                                                        $roomPrice = $is_international ? ($roomPattern?->price_usd ?? 0) : ($roomPattern?->price_idr ?? 0);
                                                     @endphp
                                                     {{ $payment_currency }} {{ $is_international ? number_format($roomPrice, 2) : number_format($roomPrice, 0, ',', '.') }}
                                                 </td>
@@ -753,7 +737,7 @@ new #[Layout('layouts::app')] class extends Component
                                         <p class="text-xs font-bold text-[#5A6446] uppercase mb-3">Bank Transfer</p>
                                         <div class="flex items-center gap-4">
                                             <div class="w-12 h-12 bg-white rounded flex items-center justify-center border border-gray-200 shrink-0">
-                                                <span class="font-black text-gray-800 text-xs">BANK</span> <!-- Ganti dengan Logo Bank BSI/Lainnya -->
+                                                <span class="font-black text-gray-800 text-xs">BANK</span> 
                                             </div>
                                             <div class="flex-1">
                                                 <p class="text-xs text-gray-500">Account Name</p>

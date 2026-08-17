@@ -2,11 +2,13 @@
 
 namespace App\Filament\Resources\Registrations\Tables;
 
+use App\Models\Room;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -37,9 +39,24 @@ class RegistrationsTable
                     ->badge()
                     ->color('gray'),
 
-                TextColumn::make('room.room_number')
-                    ->label('Room')
-                    ->placeholder('Not Selected')
+                TextColumn::make('room_type_preference')
+                    ->label('Tipe Kamar')
+                    ->badge()
+                    ->color('info')
+                    ->sortable(),
+
+                SelectColumn::make('room_id')
+                    ->label('Assign Room')
+                    ->options(function ($record) {
+                        if ($record && $record->room_type_preference) {
+                            return Room::where('type', $record->room_type_preference)
+                                ->where('is_available', true)
+                                ->pluck('room_number', 'id');
+                        }
+                        
+                        return Room::where('is_available', true)->pluck('room_number', 'id');
+                    })
+                    ->disabled(fn ($record) => $record->payment?->payment_status !== 'paid')
                     ->sortable(),
 
                 IconColumn::make('is_waiting_list')

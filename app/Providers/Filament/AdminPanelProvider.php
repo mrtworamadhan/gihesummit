@@ -33,7 +33,7 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
-            ->favicon(asset('images/logo-gihes.png'))
+            ->favicon(asset('favicon-32x32.png'))
             ->colors([
                 'primary' => Color::Amber,
             ])
