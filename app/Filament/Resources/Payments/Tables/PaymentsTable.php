@@ -104,7 +104,7 @@ class PaymentsTable
 
                         try {
                             Http::withHeaders([
-                                'Authorization' => 'iMuaL2ReDTbeswcWmrfN', // Ganti dengan Token Fonnte
+                                'Authorization' => 'eYx7Pa6K2xiSE4s9aQxo',
                             ])->post('https://api.fonnte.com/send', [
                                 'target' => $noWa,
                                 'message' => $pesanWA,

@@ -32,4 +32,8 @@ class Participant extends Model
     {
         return $this->hasOne(Registration::class);
     }
+    public function room(): HasOne
+    {
+        return $this->hasOne(Room::class);
+    }
 }

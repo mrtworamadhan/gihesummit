@@ -74,7 +74,7 @@ new #[Layout('layouts::auth')] class extends Component
         // 2. TODO: Trigger API Fonnte di sini
         $loginUrl = url('/login');
         Http::withHeaders([
-            'Authorization' => 'iMuaL2ReDTbeswcWmrfN' 
+            'Authorization' => 'eYx7Pa6K2xiSE4s9aQxo' 
         ])->post('https://api.fonnte.com/send', [
             'target' => $this->whatsapp,
             'message' => "Hello *{$this->name}*,\n\nWelcome to GIHES 2026! Your account has been successfully created.\n\nPlease log in to the Participant Portal using your registered email (*{$this->email}*) to complete your profile, logistics, and accommodation details.\n\nAccess the portal directly via this link:\n{$loginUrl}\n\nIf you need any assistance, feel free to reply to this message.\n\nBest regards,\n*GIHES 2026 Organizing Committee*",

@@ -117,7 +117,7 @@ new #[Layout('layouts::app')] class extends Component
                     $amount = $payment?->final_amount ?? 0;
                     $amountText = $currency === 'USD' ? number_format($amount, 2) : number_format($amount, 0, ',', '.');
                     
-                    $adminWaNumber = "6281234567890";
+                    $adminWaNumber = "6281335444683";
                     $pesanWA = "Hello GIHES Admin,\n\nI am *" . $user->name . "* from *" . $user->institution_name . "*. I have completed the registration process.\n\nTotal Amount: *" . $currency . " " . $amountText . "*\n\nPlease find my transfer receipt attached. Kindly assist with the verification.";
                     $waLink = "https://wa.me/" . $adminWaNumber . "?text=" . urlencode($pesanWA);
                 @endphp

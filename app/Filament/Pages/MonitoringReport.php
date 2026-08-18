@@ -162,7 +162,7 @@ class MonitoringReport extends Page implements HasTable, HasInfolists
                     ->label('Request Kamar')
                     ->badge(),
                     
-                TextColumn::make('room.name')
+                TextColumn::make('room.room_number')
                     ->label('Assigned Room')
                     ->default('Belum Diatur')
                     ->color(fn ($state) => $state === 'Belum Diatur' ? 'danger' : 'success'),

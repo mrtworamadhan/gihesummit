@@ -10,15 +10,30 @@ class AdminSeeder extends Seeder
 {
     public function run(): void
     {
-        // Pastikan kolom role sudah ada di tabel users ya bro
-        User::create([
-            'name' => 'Administrator',
-            'email' => 'admin@gihes.com',
-            'password' => Hash::make('password123'), // Ganti password sesukamu
-            'whatsapp' => '6281234567890',
-            'nationality' => 'Indonesia',
-            'institution_name' => 'GIHES Admin',
-            'role' => 'admin', // Ini kuncinya
-        ]);
+        User::updateOrCreate(
+            ['email' => 'admin1@gihes.com'],
+            [
+                'name' => 'Fardana Khirzul Haq',
+                'password' => Hash::make('password123'),
+                'whatsapp' => '6281335444683',
+                'nationality' => 'Indonesia',
+                'institution_name' => 'GIHES Core Team',
+                'role' => 'admin',
+            ]
+        );
+
+        User::updateOrCreate(
+            ['email' => 'admin2@gihes.com'],
+            [
+                'name' => 'Sayuda Patria',
+                'password' => Hash::make('password123'),
+                'whatsapp' => '6287771776677',
+                'nationality' => 'Indonesia',
+                'institution_name' => 'GIHES Core Team',
+                'role' => 'admin',
+            ]
+        );
+        
+        $this->command->info('2 User Admin berhasil dibuat/diupdate!');
     }
 }
