@@ -29,15 +29,10 @@ class RegistrationsTable
                     ->searchable()
                     ->limit(30),
 
-                TextColumn::make('participant.user.position_title')
+                TextColumn::make('participant.position_title')
                     ->label('Position')
                     ->searchable()
                     ->limit(30),
-
-                TextColumn::make('role_at_summit')
-                    ->label('Role')
-                    ->badge()
-                    ->color('gray'),
 
                 TextColumn::make('room_type_preference')
                     ->label('Tipe Kamar')

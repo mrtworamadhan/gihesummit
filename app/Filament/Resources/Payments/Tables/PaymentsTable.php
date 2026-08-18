@@ -43,14 +43,20 @@ class PaymentsTable
                         'USD' => 'success',
                         default => 'gray',
                     }),
+                    
                 TextColumn::make('final_amount')
                     ->numeric() 
                     ->sortable(),
-                TextColumn::make('payment_method')
-                    ->label('Method'),
+
                 ImageColumn::make('payment_proof_path')
                     ->label('Proof')
                     ->square(),
+                TextColumn::make('verifier.name')
+                    ->label('Verified By')
+                    ->badge()
+                    ->color('gray')
+                    ->default('Belum diverifikasi')
+                    ->sortable(),
             ])
             ->filters([
                 SelectFilter::make('payment_status')
@@ -81,7 +87,7 @@ class PaymentsTable
                             $statusPesan = "Main quota is full, you are placed on the priority Waiting List.";
                         }
 
-                        $record->update(['payment_status' => 'paid']);
+                        $record->update(['payment_status' => 'paid', 'verified_by' => auth()->id(),]);
                         
                         if ($registration && $registration->room_id) {
                             $registration->room->checkAndLockAvailability();

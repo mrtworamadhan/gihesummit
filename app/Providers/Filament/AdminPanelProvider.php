@@ -65,6 +65,9 @@ class AdminPanelProvider extends PanelProvider
                     ->collapsible(false),
                 NavigationGroup::make()
                     ->label('Event Management')
+                    ->collapsible(false),   
+                NavigationGroup::make()
+                    ->label('Media')
                     ->collapsible(false),    
                 
             ])

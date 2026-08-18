@@ -36,6 +36,11 @@ class ParticipantsTable
                     ->searchable()
                     ->limit(30),
 
+                TextColumn::make('type_of_institution')
+                    ->label('Type of Institution')
+                    ->searchable()
+                    ->limit(30),
+
                 TextColumn::make('province')
                     ->label('Province/State')
                     ->searchable()

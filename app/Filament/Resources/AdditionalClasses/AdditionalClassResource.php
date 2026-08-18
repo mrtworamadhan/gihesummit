@@ -5,6 +5,7 @@ namespace App\Filament\Resources\AdditionalClasses;
 use App\Filament\Resources\AdditionalClasses\Pages\CreateAdditionalClass;
 use App\Filament\Resources\AdditionalClasses\Pages\EditAdditionalClass;
 use App\Filament\Resources\AdditionalClasses\Pages\ListAdditionalClasses;
+use App\Filament\Resources\AdditionalClasses\RelationManagers\RegistrationsRelationManager;
 use App\Filament\Resources\AdditionalClasses\Schemas\AdditionalClassForm;
 use App\Filament\Resources\AdditionalClasses\Tables\AdditionalClassesTable;
 use App\Models\AdditionalClass;
@@ -40,7 +41,7 @@ class AdditionalClassResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RegistrationsRelationManager::class,
         ];
     }
 

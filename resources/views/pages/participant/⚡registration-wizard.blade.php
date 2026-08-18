@@ -25,6 +25,7 @@ new #[Layout('layouts::app')] class extends Component
     public $type_of_institution, $institution_address, $province, $website_social_media, $institution_scale, $position_title;
     public $role_at_summit, $showcase_category, $willingness_to_cosign_declaration;
     public $preferred_working_group = [];
+    public $other_position_title;
 
     // STEP 2
     public $departure_city_country, $estimated_arrival, $estimated_departure;
@@ -60,7 +61,20 @@ new #[Layout('layouts::app')] class extends Component
             $this->province = $participant->province;
             $this->website_social_media = $participant->website_social_media;
             $this->institution_scale = $participant->institution_scale;
-            $this->position_title = $participant->position_title;
+            $savedPosition = $participant->position_title;
+            $standardPositions = [
+                'Pimpinan/Pengasuh/Ketua Yayasan', 
+                'Direktur', 
+                'Kepala Lembaga/Sekolah', 
+                'Dosen/Guru'
+            ];
+
+            if ($savedPosition && !in_array($savedPosition, $standardPositions)) {
+                $this->position_title = 'Lain-lain';
+                $this->other_position_title = $savedPosition;
+            } else {
+                $this->position_title = $savedPosition;
+            }
 
             if ($participant->registration) {
                 $reg = $participant->registration;
@@ -81,7 +95,7 @@ new #[Layout('layouts::app')] class extends Component
                 $this->accessibility_needs = $reg->accessibility_needs;
                 $this->tour_guide_needed = $reg->tour_guide_needed;
                 
-                $this->room_type = $reg->room_type_preference;
+                $this->selected_room_type = $reg->room_type_preference;
                 // $this->selected_room_id = $reg->room_id;
 
                 // Load Riwayat File & Kelas (STEP 3)
@@ -117,7 +131,7 @@ new #[Layout('layouts::app')] class extends Component
         $participant = Participant::updateOrCreate(
             ['user_id' => Auth::id()],
             [
-                'position_title' => $this->position_title,
+                'position_title' => $this->position_title === 'Lain-lain' ? $this->other_position_title : $this->position_title,
                 'type_of_institution' => $this->type_of_institution,
                 'institution_address' => $this->institution_address,
                 'province' => $this->province,
@@ -127,9 +141,26 @@ new #[Layout('layouts::app')] class extends Component
         );
 
         if ($this->currentStep == 1) {
+            $this->validate([
+                'position_title' => 'required',
+                'other_position_title' => 'required_if:position_title,Lain-lain'
+            ], [
+                'other_position_title.required_if' => 'Please specify your position title.',
+            ]);
+            $finalPosition = $this->position_title === 'Lain-lain' 
+                ? $this->other_position_title 
+                : $this->position_title;
+
             Registration::updateOrCreate(
                 ['participant_id' => $participant->id],
+                
                 [
+                    'position_title' => $finalPosition,
+                    'type_of_institution' => $this->type_of_institution,
+                    'institution_address' => $this->institution_address,
+                    'province' => $this->province,
+                    'website_social_media' => $this->website_social_media,
+                    'institution_scale' => $this->institution_scale,
                     'role_at_summit' => $this->role_at_summit,
                     'showcase_category' => $this->showcase_category,
                     'preferred_working_group' => $this->preferred_working_group, 
@@ -138,13 +169,20 @@ new #[Layout('layouts::app')] class extends Component
             );
         }
         elseif ($this->currentStep == 2) {
+            $this->validate([
+                'departure_city_country' => 'required|string|max:255',
+                'selected_room_type'     => 'required|in:Single,Twin',
+            ], [
+                'selected_room_type.required' => 'Please select your accommodation type before proceeding.',
+                'departure_city_country.required' => 'Departure city/country is required.',
+            ]);
             Registration::updateOrCreate(
                 ['participant_id' => $participant->id],
                 [
                     'departure_city_country' => $this->departure_city_country,
                     'estimated_arrival' => $this->estimated_arrival, 
                     'estimated_departure' => $this->estimated_departure, 
-                    'room_type_preference' => $this->room_type,
+                    'room_type_preference' => $this->selected_room_type,
                     // 'room_id' => $this->selected_room_id,
                     'needs_accommodation_assist' => $this->needs_accommodation_assist,
                     'requires_visa_letter' => $this->requires_visa_letter,
@@ -319,7 +357,8 @@ new #[Layout('layouts::app')] class extends Component
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                                 <div>
                                     <label class="block text-sm font-bold text-gray-700 mb-2">Position / Title at Institution <span class="text-red-500">*</span></label>
-                                    <select wire:model="position_title" class="w-full border border-gray-300 rounded-sm px-4 py-3 focus:ring-2 focus:ring-[#C0A062] focus:border-transparent outline-none transition-all bg-white text-gray-800">
+                                    
+                                    <select wire:model.live="position_title" class="w-full border border-gray-300 rounded-sm px-4 py-3 focus:ring-2 focus:ring-[#C0A062] focus:border-transparent outline-none transition-all bg-white text-gray-800">
                                         <option value="">-- Select Position --</option>
                                         <option value="Pimpinan/Pengasuh/Ketua Yayasan">Pimpinan / Pengasuh / Ketua Yayasan</option>
                                         <option value="Direktur">Direktur</option>
@@ -328,6 +367,13 @@ new #[Layout('layouts::app')] class extends Component
                                         <option value="Lain-lain">Lain-lain</option>
                                     </select>
                                     @error('position_title') <span class="text-red-500 text-xs mt-1 block">{{ $message }}</span> @enderror
+
+                                    @if($position_title === 'Lain-lain')
+                                        <div class="mt-3 animate-fade-in-up">
+                                            <input type="text" wire:model="other_position_title" class="w-full border border-gray-300 rounded-sm px-4 py-3 focus:ring-2 focus:ring-[#C0A062] outline-none transition-all" placeholder="Please specify your position (e.g. Staff IT, Bendahara)...">
+                                            @error('other_position_title') <span class="text-red-500 text-xs mt-1 block">{{ $message }}</span> @enderror
+                                        </div>
+                                    @endif
                                 </div>
 
                                 <div>
@@ -349,8 +395,57 @@ new #[Layout('layouts::app')] class extends Component
                             </div>
 
                             <div>
-                                <label class="block text-sm font-bold text-gray-700 mb-2">Province / State (if International) <span class="text-red-500">*</span></label>
-                                <input type="text" wire:model="province" class="w-full border border-gray-300 rounded-sm px-4 py-3 focus:ring-2 focus:ring-[#C0A062] focus:border-transparent outline-none transition-all" placeholder="e.g. Jawa Timur, Selangor, etc.">
+                                <label class="block text-sm font-bold text-gray-700 mb-2">
+                                    {{ !$is_international ? 'Provinsi' : 'Province / State' }} <span class="text-red-500">*</span>
+                                </label>
+
+                                @if(!$is_international)
+                                    <input list="indonesia-provinces" wire:model="province" class="w-full border border-gray-300 rounded-sm px-4 py-3 focus:ring-2 focus:ring-[#C0A062] focus:border-transparent outline-none transition-all bg-white" placeholder="Ketik atau pilih provinsi..." autocomplete="off">
+                                    
+                                    <datalist id="indonesia-provinces">
+                                        <option value="Aceh"></option>
+                                        <option value="Sumatera Utara"></option>
+                                        <option value="Sumatera Barat"></option>
+                                        <option value="Riau"></option>
+                                        <option value="Jambi"></option>
+                                        <option value="Sumatera Selatan"></option>
+                                        <option value="Bengkulu"></option>
+                                        <option value="Lampung"></option>
+                                        <option value="Kepulauan Bangka Belitung"></option>
+                                        <option value="Kepulauan Riau"></option>
+                                        <option value="DKI Jakarta"></option>
+                                        <option value="Jawa Barat"></option>
+                                        <option value="Jawa Tengah"></option>
+                                        <option value="DI Yogyakarta"></option>
+                                        <option value="Jawa Timur"></option>
+                                        <option value="Banten"></option>
+                                        <option value="Bali"></option>
+                                        <option value="Nusa Tenggara Barat"></option>
+                                        <option value="Nusa Tenggara Timur"></option>
+                                        <option value="Kalimantan Barat"></option>
+                                        <option value="Kalimantan Tengah"></option>
+                                        <option value="Kalimantan Selatan"></option>
+                                        <option value="Kalimantan Timur"></option>
+                                        <option value="Kalimantan Utara"></option>
+                                        <option value="Sulawesi Utara"></option>
+                                        <option value="Sulawesi Tengah"></option>
+                                        <option value="Sulawesi Selatan"></option>
+                                        <option value="Sulawesi Tenggara"></option>
+                                        <option value="Gorontalo"></option>
+                                        <option value="Sulawesi Barat"></option>
+                                        <option value="Maluku"></option>
+                                        <option value="Maluku Utara"></option>
+                                        <option value="Papua"></option>
+                                        <option value="Papua Barat"></option>
+                                        <option value="Papua Selatan"></option>
+                                        <option value="Papua Tengah"></option>
+                                        <option value="Papua Pegunungan"></option>
+                                        <option value="Papua Barat Daya"></option>
+                                    </datalist>
+                                @else
+                                    <input type="text" wire:model="province" class="w-full border border-gray-300 rounded-sm px-4 py-3 focus:ring-2 focus:ring-[#C0A062] focus:border-transparent outline-none transition-all" placeholder="e.g. Selangor, Texas, etc.">
+                                @endif
+
                                 @error('province') <span class="text-red-500 text-xs mt-1 block">{{ $message }}</span> @enderror
                             </div>
 
@@ -736,8 +831,8 @@ new #[Layout('layouts::app')] class extends Component
                                     <div class="border border-[#C0A062] rounded-lg p-5 bg-yellow-50/30">
                                         <p class="text-xs font-bold text-[#5A6446] uppercase mb-3">Bank Transfer</p>
                                         <div class="flex items-center gap-4">
-                                            <div class="w-12 h-12 bg-white rounded flex items-center justify-center border border-gray-200 shrink-0">
-                                                <span class="font-black text-gray-800 text-xs">BANK</span> 
+                                            <div class="w-12 h-12 bg-white rounded flex items-center justify-center border border-gray-200 shrink-0 p-1">
+                                                <img src="{{ asset('images/bsi-logo.png') }}" alt="Logo BSI" class="w-full h-full object-contain">
                                             </div>
                                             <div class="flex-1">
                                                 <p class="text-xs text-gray-500">Account Name</p>
@@ -763,8 +858,8 @@ new #[Layout('layouts::app')] class extends Component
                                         </div>
                                         
                                         <div class="mt-4 inline-block p-4 bg-white border border-gray-200 rounded-lg shadow-sm">
-                                            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg" alt="QRIS GIHES" class="w-32 h-32 object-cover mx-auto opacity-80">
-                                            <p class="text-xs font-bold mt-2 text-gray-800">GIHES 2026 OFFICIAL</p>
+                                            <img src="{{ asset('images/bsi-logo.png') }}" alt="QRIS GIHES" class="w-32 h-32 object-cover mx-auto opacity-80">
+                                            <p class="text-xs font-bold mt-2 text-gray-800">FORUM PESANTREN ALUMNI GONTOR</p>
                                         </div>
                                     </div>
                                 </div>

@@ -29,6 +29,24 @@ new #[Layout('layouts::auth')] class extends Component
         return Country::orderBy('nicename', 'asc')->get();
     }
 
+    public function updatedPhoneCode($value)
+    {
+        $country = collect($this->countries)->firstWhere('phonecode', $value);
+        
+        if ($country) {
+            $this->nationality = $country->nicename; 
+        }
+    }
+
+    public function updatedNationality($value)
+    {
+        $country = collect($this->countries)->firstWhere('nicename', $value);
+        
+        if ($country) {
+            $this->phone_code = $country->phonecode; 
+        }
+    }
+
     public function register()
     {
         $this->validate();
@@ -114,7 +132,7 @@ new #[Layout('layouts::auth')] class extends Component
                     <div>
                         <label class="block text-sm font-bold text-gray-700 mb-1">Active WhatsApp Number *</label>
                         <div class="flex">
-                            <select wire:model="phone_code" class="w-32 border border-gray-300 border-r-0 rounded-l px-2 py-2.5 bg-gray-50 focus:ring-2 focus:ring-[#C0A062] outline-none transition-all text-sm font-medium">
+                            <select wire:model.live="phone_code" class="w-32 border border-gray-300 border-r-0 rounded-l px-2 py-2.5 bg-gray-50 focus:ring-2 focus:ring-[#C0A062] outline-none transition-all text-sm font-medium">
                                 @foreach($this->countries as $country)
                                     <option value="{{ $country->phonecode }}">
                                         ({{ $country->iso }}) +{{ $country->phonecode }} 
@@ -138,7 +156,7 @@ new #[Layout('layouts::auth')] class extends Component
                     
                     <div>
                         <label class="block text-sm font-bold text-gray-700 mb-1">Nationality *</label>
-                        <select wire:model="nationality" class="w-full border border-gray-300 rounded px-4 py-2.5 focus:ring-2 focus:ring-[#C0A062] focus:border-transparent outline-none transition-all bg-white">
+                        <select wire:model.live="nationality" class="w-full border border-gray-300 rounded px-4 py-2.5 focus:ring-2 focus:ring-[#C0A062] focus:border-transparent outline-none transition-all bg-white">
                             <option value="">-- Select Country --</option>
                             @foreach($this->countries as $country)
                                 <option value="{{ $country->nicename }}">{{ $country->nicename }}</option>
