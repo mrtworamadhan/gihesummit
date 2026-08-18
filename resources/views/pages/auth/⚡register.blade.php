@@ -12,10 +12,12 @@ new #[Layout('layouts::auth')] class extends Component
 {
     public $name, $email, $whatsapp, $institution_name, $nationality, $password, $password_confirmation;
     public $phone_code = '62';
+    public $gender; //
     public function rules()
     {
         return [
             'name' => 'required|string|max:255',
+            'gender' => 'required|in:Male,Female',
             'email' => 'required|email|unique:users,email',
             'whatsapp' => 'required|string|min:10|max:15|unique:users,whatsapp',
             'institution_name' => 'required|string|max:255',
@@ -63,6 +65,7 @@ new #[Layout('layouts::auth')] class extends Component
         // 1. Buat User Baru
         $user = User::create([
             'name' => $this->name,
+            'gender' => $this->gender,
             'email' => $this->email,
             'whatsapp' => $fullWhatsappNumber,
             'institution_name' => $this->institution_name, 
@@ -145,6 +148,34 @@ new #[Layout('layouts::auth')] class extends Component
                         <span class="text-gray-400 text-[10px] mt-1 block">Omit leading zero (e.g., 812...)</span>
                         @error('whatsapp') <span class="text-red-500 text-xs mt-1 block font-semibold">{{ $message }}</span> @enderror
                     </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        Gender / Jenis Kelamin <span class="text-red-500">*</span>
+                    </label>
+                    <div class="flex gap-6">
+                        <label class="flex items-center cursor-pointer">
+                            <input type="radio" 
+                                wire:model="gender" 
+                                value="Male" 
+                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
+                            <span class="ml-2 text-sm text-gray-700">Male (Laki-laki)</span>
+                        </label>
+
+                        <label class="flex items-center cursor-pointer">
+                            <input type="radio" 
+                                wire:model="gender" 
+                                value="Female" 
+                                class="w-4 h-4 text-pink-600 bg-gray-100 border-gray-300 focus:ring-pink-500">
+                            <span class="ml-2 text-sm text-gray-700">Female (Perempuan)</span>
+                        </label>
+                    </div>
+                    
+                    <!-- Menampilkan pesan error jika belum dipilih -->
+                    @error('gender') 
+                        <span class="text-sm text-red-500 mt-1 block">{{ $message }}</span> 
+                    @enderror
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">

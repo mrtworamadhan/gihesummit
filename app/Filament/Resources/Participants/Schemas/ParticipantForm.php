@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Participants\Schemas;
 
+use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
@@ -23,6 +24,15 @@ class ParticipantForm
                             ->label('Full Name')
                             ->required()
                             ->maxLength(255),
+
+                        Radio::make('gender')
+                            ->label('Gender / Jenis Kelamin')
+                            ->options([
+                                'Male' => 'Male (Laki-laki)',
+                                'Female' => 'Female (Perempuan)',
+                            ])
+                            ->inline() // Agar tampilannya menyamping (hemat tempat)
+                            ->required(),
                             
                         TextInput::make('email')
                             ->email()

@@ -34,10 +34,23 @@ class RegistrationsTable
                     ->searchable()
                     ->limit(30),
 
+                 TextColumn::make('participant.user.gender')
+                    ->label('Gender')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'Male' => 'info',    
+                        'Female' => 'danger',
+                        default => 'gray',
+                    }),
+
                 TextColumn::make('room_type_preference')
                     ->label('Tipe Kamar')
                     ->badge()
-                    ->color('info')
+                    ->color(fn (string $state): string => match ($state) {
+                        'Single' => 'warning', 
+                        'Twin' => 'success',  
+                        default => 'gray',  
+                    })
                     ->sortable(),
 
                 SelectColumn::make('room_id')

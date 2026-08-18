@@ -155,6 +155,7 @@ new #[Layout('layouts::app')] class extends Component
                 ['participant_id' => $participant->id],
                 
                 [
+                    'gender' => $participant->user->gender,
                     'position_title' => $finalPosition,
                     'type_of_institution' => $this->type_of_institution,
                     'institution_address' => $this->institution_address,

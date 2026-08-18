@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Filament\Models\Contracts\FilamentUser; // Tambahkan ini
 use Filament\Panel; // Tambahkan ini
 
-#[Fillable(['name', 'email', 'password', 'role', 'is_active', 'whatsapp', 'institution_name', 'nationality'])]
+#[Fillable(['name', 'email', 'gender', 'password', 'role', 'is_active', 'whatsapp', 'institution_name', 'nationality'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable implements FilamentUser
 {

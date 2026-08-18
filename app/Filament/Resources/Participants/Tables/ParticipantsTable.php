@@ -20,6 +20,15 @@ class ParticipantsTable
                     ->searchable()
                     ->sortable()
                     ->weight('bold'),
+
+                TextColumn::make('participant.user.gender')
+                    ->label('Gender')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'Male' => 'info',    
+                        'Female' => 'danger',
+                        default => 'gray',
+                    }),
                     
                 TextColumn::make('user.whatsapp')
                     ->label('WhatsApp')
