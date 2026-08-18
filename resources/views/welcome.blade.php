@@ -617,7 +617,7 @@
                     
                     <div class="flex items-center gap-3 text-gray-400">
                         <svg class="w-5 h-5 text-[#C0A062]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                        <span class="text-sm font-medium">For Inquiries: <a href="mailto:gihes.summit@gmail.com" class="text-white hover:text-[#C0A062] transition-colors">gihes.summit@gmail.com</a></span>
+                        <span class="text-sm font-medium">For Inquiries: <a href="mailto:gihesindonesia2026@gmail.com" class="text-white hover:text-[#C0A062] transition-colors">gihes.summit@gmail.com</a></span>
                     </div>
                 </div>
 
