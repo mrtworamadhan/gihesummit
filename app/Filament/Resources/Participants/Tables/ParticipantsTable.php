@@ -21,7 +21,7 @@ class ParticipantsTable
                     ->sortable()
                     ->weight('bold'),
 
-                TextColumn::make('participant.user.gender')
+                TextColumn::make('user.gender')
                     ->label('Gender')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
