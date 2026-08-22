@@ -8,7 +8,7 @@
     <meta name="keywords" content="GIHES 2026, Islamic Education, Holistic Education, Conference, Summit 2026, Laravel, Futsal Cup">
     <meta name="author" content="Salaka Tech">
 
-    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
+    <link rel="icon" type="image/png" href="{{ asset('images/favicon.png') }}">
 
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url()->current() }}">

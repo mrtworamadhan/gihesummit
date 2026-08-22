@@ -19,7 +19,7 @@
     <meta name="twitter:description" content="Participant Portal GIHES 2026. Kelola registrasi dan akomodasi Anda di sini.">
     <meta name="twitter:image" content="{{ asset('images/logo-gihes.png') }}">
 
-    <link rel="icon" type="image/png" href="{{ asset('images/.png') }}">
+    <link rel="icon" type="image/png" href="{{ asset('images/favicon.png') }}">
     
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
