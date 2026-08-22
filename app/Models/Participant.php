@@ -36,4 +36,5 @@ class Participant extends Model
     {
         return $this->hasOne(Room::class);
     }
+
 }

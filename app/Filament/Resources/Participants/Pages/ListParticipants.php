@@ -7,10 +7,28 @@ use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Schemas\Components\Tabs\Tab;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Exports\ParticipantExporter;
+use Filament\Actions\ExportAction;
+use Filament\Actions\Exports\Enums\ExportFormat;
 
 class ListParticipants extends ListRecords
 {
     protected static string $resource = ParticipantResource::class;
+
+    protected function getHeaderActions(): array
+    {
+        return [
+            ExportAction::make('export_master')
+                ->label('Download Master Excel')
+                ->icon('heroicon-o-arrow-down-tray')
+                ->color('success')
+                ->exporter(ParticipantExporter::class)
+                ->formats([
+                    ExportFormat::Xlsx,
+                    ExportFormat::Csv,
+                ])
+        ];
+    }
 
     public function getTabs(): array
     {
