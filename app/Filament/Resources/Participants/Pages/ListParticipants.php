@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Participants\Pages;
 
 use App\Filament\Resources\Participants\ParticipantResource;
 use Filament\Actions\CreateAction;
+use Filament\Actions\Exports\Models\Export;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Schemas\Components\Tabs\Tab;
 use Illuminate\Database\Eloquent\Builder;
@@ -23,6 +24,7 @@ class ListParticipants extends ListRecords
                 ->icon('heroicon-o-arrow-down-tray')
                 ->color('success')
                 ->exporter(ParticipantExporter::class)
+                ->fileName(fn (Export $export): string => "Daftar Peserta-{$export->getKey()}")
                 ->formats([
                     ExportFormat::Xlsx,
                     ExportFormat::Csv,
