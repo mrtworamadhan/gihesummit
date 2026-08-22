@@ -19,7 +19,7 @@
     <meta name="twitter:description" content="Participant Portal GIHES 2026. Kelola registrasi dan akomodasi Anda di sini.">
     <meta name="twitter:image" content="{{ asset('images/logo-gihes.png') }}">
 
-    <link rel="icon" type="image/png" href="{{ asset('images/favicon.png') }}">
+    <link rel="icon" type="image/png" href="{{ asset('images/.png') }}">
     
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -38,7 +38,7 @@
                     
                     <div class="h-10 w-[1px] bg-[#8C8A7D]"></div>
                     
-                    <img src="{{ asset('images/logo-gihes.png') }}" alt="GIHES 2026" class="h-10 md:h-12 w-auto object-contain min-w-[100px]" onerror="this.outerHTML='<div class=\'h-12 w-28 bg-gray-200 border border-gray-300 flex items-center justify-center text-[10px] text-gray-500 rounded\'>Logo GIHES</div>'">
+                    <img src="{{ asset('images/gihes.png') }}" alt="GIHES 2026" class="h-10 md:h-12 w-auto object-contain min-w-[100px]" onerror="this.outerHTML='<div class=\'h-12 w-28 bg-gray-200 border border-gray-300 flex items-center justify-center text-[10px] text-gray-500 rounded\'>Logo GIHES</div>'">
                 </div>
                 <button @click="sidebarOpen = false" class="lg:hidden absolute right-4 text-gray-400 hover:text-white">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
@@ -52,7 +52,7 @@
                 </a>
                 
                 <a href="{{ route('panel.profil') }}" class="flex items-center gap-3 px-4 py-3 rounded-md font-bold transition-colors {{ request()->routeIs('panel.profil') ? 'bg-[#5A6446]/40 text-[#C0A062]' : 'text-gray-300 hover:bg-[#5A6446]/40 hover:text-white' }}">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                    <svg class="w-5 h-5" fill="none" stroke="currefaviconntColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
                     Account Info
                 </a>
                 
