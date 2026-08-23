@@ -519,11 +519,11 @@
                     <div class="relative mb-4">
                         <span class="absolute -top-4 left-1/2 -translate-x-1/2 bg-white text-[#12241C] text-xs font-bold px-3 py-1 rounded shadow-md z-10 uppercase tracking-widest">Malaysia</span>
                         <div class="w-40 h-40 rounded-full border-4 border-white overflow-hidden bg-gray-200 shadow-xl relative z-0">
-                            <img src="{{ asset('images/speakers/dr-asmawati.webp') }}" alt="Assoc Prof. Dr. Asmawati Suhid" class="w-full h-full object-cover" onerror="this.outerHTML='<div class=\'w-full h-full flex items-center justify-center text-gray-500 text-xs\'>Foto</div>'">
+                            <img src="{{ asset('images/speakers/prof.norazah.jpeg') }}" alt="Prof. Dato. Ts. Dr. Norazah Mohd. Nordin" class="w-full h-full object-cover" onerror="this.outerHTML='<div class=\'w-full h-full flex items-center justify-center text-gray-500 text-xs\'>Foto</div>'">
                         </div>
                     </div>
-                    <h4 class="text-white font-bold text-lg mb-1 leading-snug">Assoc Prof. Dr. Asmawati Suhid</h4>
-                    <p class="text-gray-400 text-[11px] leading-relaxed">Professor in Islamic Education, Universiti Putra Malaysia</p>
+                    <h4 class="text-white font-bold text-lg mb-1 leading-snug">Prof. Dato. Ts. Dr. Norazah Mohd. Nordin</h4>
+                    <p class="text-gray-400 text-[11px] leading-relaxed">Universiti Kebangsaan Malaysia</p>
                 </div>
 
             </div>
