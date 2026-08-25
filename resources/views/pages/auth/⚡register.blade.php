@@ -19,7 +19,7 @@ new #[Layout('layouts::auth')] class extends Component
             'name' => 'required|string|max:255',
             'gender' => 'required|in:Male,Female',
             'email' => 'required|email|unique:users,email',
-            'whatsapp' => 'required|string|min:10|max:15|unique:users,whatsapp',
+            'whatsapp' => 'required|string|min:9|max:15|unique:users,whatsapp',
             'institution_name' => 'required|string|max:255',
             'nationality' => 'required|string',
             'password' => 'required|min:8|confirmed',
@@ -55,7 +55,6 @@ new #[Layout('layouts::auth')] class extends Component
         $cleanWhatsapp = ltrim($this->whatsapp, '0');
         $fullWhatsappNumber = $this->phone_code . $cleanWhatsapp;
 
-        // 3. (Opsional) Validasi ulang memastikan nomor yang sudah digabung ini belum terdaftar
         $exists = User::where('whatsapp', $fullWhatsappNumber)->exists();
         if ($exists) {
             $this->addError('whatsapp', 'This WhatsApp number is already registered.');
@@ -77,7 +76,7 @@ new #[Layout('layouts::auth')] class extends Component
         // 2. TODO: Trigger API Fonnte di sini
         $loginUrl = url('/login');
         Http::withHeaders([
-            'Authorization' => 'Aqf7qZvRZBKGHAhzTyYR' 
+            'Authorization' => 'cj9pJXa3FzkQFMXSyCff' 
         ])->post('https://api.fonnte.com/send', [
             'target' => $this->whatsapp,
             'message' => "Hello *{$this->name}*,\n\nWelcome to GIHES 2026! Your account has been successfully created.\n\nPlease log in to the Participant Portal using your registered email (*{$this->email}*) to complete your profile, logistics, and accommodation details.\n\nAccess the portal directly via this link:\n{$loginUrl}\n\nIf you need any assistance, feel free to reply to this message.\n\nBest regards,\n*GIHES 2026 Organizing Committee*",

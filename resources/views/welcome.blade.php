@@ -14,7 +14,7 @@
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:title" content="GIHES 2026 - Global Islamic Holistic Education Summit">
     <meta property="og:description" content="Register now for GIHES 2026. Connect with global leaders in Islamic Holistic Education.">
-    <meta property="og:image" content="{{ asset('images/og-share-gihes.jpg') }}">
+    <meta property="og:image" content="{{ asset('images/gihes-speakers.png') }}">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
 
@@ -22,7 +22,7 @@
     <meta name="twitter:url" content="{{ url()->current() }}">
     <meta name="twitter:title" content="GIHES 2026 - Global Islamic Holistic Education Summit">
     <meta name="twitter:description" content="Register now for GIHES 2026. Connect with global leaders in Islamic Holistic Education.">
-    <meta name="twitter:image" content="{{ asset('images/og-share-gihes.jpg') }}">
+    <meta name="twitter:image" content="{{ asset('images/gihes-speakers.png') }}">
     
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
