@@ -88,23 +88,23 @@
 
         <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             
-            <p class="text-xs md:text-sm font-bold tracking-[0.25em] uppercase text-[#1B1B1B] mb-6">
+            <p class="font-gontor text-xs md:text-sm font-bold tracking-[0.25em] uppercase text-[#1B1B1B] mb-6">
                 GIHES 2026 | 100th Anniversary of Pondok Modern Darussalam Gontor
             </p>
-            
-            <h1 class="text-4xl md:text-6xl lg:text-[5.5rem] font-black text-[#1B1B1B] leading-[1.05] tracking-tight mb-4 uppercase">
+
+            <h1 class="font-gontor text-4xl md:text-6xl lg:text-[5.5rem] font-black text-[#1B1B1B] leading-[1.05] tracking-tight mb-4 uppercase">
                 Global Islamic<br>
                 Holistic<br>
                 Education Summit
             </h1>
-            
-            <p class="text-xl md:text-2xl text-[#716C59] italic font-medium mb-8">
+
+            <p class="font-gontor text-xl md:text-2xl text-[#716C59] italic font-medium mb-8">
                 Timeless Values. Future Civilizations.
             </p>
-            
+
             <div class="h-[2px] w-full max-w-2xl mx-auto bg-[#1B1B1B] mb-8"></div>
-            
-            <h2 class="text-2xl md:text-3xl text-[#5A5B58] italic font-light mb-16 leading-snug">
+
+            <h2 class="font-gontor text-2xl md:text-3xl text-[#5A5B58] italic font-light mb-16 leading-snug">
                 Exploring and Revealing<br>
                 the Pesantren Education System
             </h2>
@@ -630,19 +630,19 @@
         </div>
     </section> -->
 
-    <section class="py-16 md:py-24 bg-white">
+    <section class="my-20 md:my-32 bg-white">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
             
-            <div class="text-center mb-10">
-                <h2 class="font-gontor text-3xl md:text-5xl font-bold text-[#1B1B1B] uppercase">
+            <div class="text-center mb-10 md:mb-16">
+                <h2 class="font-gontor text-2xl md:text-4xl lg:text-5xl font-bold text-[#1B1B1B] uppercase px-2">
                     Our Distinguished Speakers
                 </h2>
-                <div class="h-[2px] w-24 mx-auto bg-[#1B1B1B] mt-4"></div>
+                <div class="h-[2px] w-20 md:w-24 mx-auto bg-[#1B1B1B] mt-5"></div>
             </div>
 
             <div class="w-full flex justify-center">
                 <img 
-                    src="{{ asset('images/gihes-speakers-rev.png') }}" 
+                    src="{{ asset('images/gihes-speakers-rev.jpg') }}" 
                     alt="GIHES 2026 Speakers" 
                     class="w-full h-auto object-contain rounded-xl shadow-xl hover:shadow-2xl transition-shadow duration-300"
                 >
