@@ -3,12 +3,16 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Schedule; // Pastikan ini mengarah ke model yang benar
+use App\Models\Schedule;
 
 class ScheduleSeeder extends Seeder
 {
     public function run(): void
     {
+        // 1. SAPU BERSIH DATA LAMA!
+        Schedule::truncate();
+
+        // 2. SIAPKAN DATA BARU
         $schedules = [
             // ================= DAY 1 - 5 SEPTEMBER 2026 =================
             [
@@ -57,7 +61,7 @@ class ScheduleSeeder extends Seeder
                 'session_name' => 'Networking Lunch & Break',
                 'topic_description' => 'Lunch, prayer, networking, institutional engagement, and check-in hotel',
                 'speaker' => 'Committee',
-                'is_break' => 1, // Ini diset 1 karena waktu istirahat
+                'is_break' => 1, 
             ],
             [
                 'day' => 1,
@@ -73,7 +77,7 @@ class ScheduleSeeder extends Seeder
                 'session_name' => 'Coffee Break',
                 'topic_description' => 'Networking Session',
                 'speaker' => 'Committee',
-                'is_break' => 1, // Waktu istirahat
+                'is_break' => 1, 
             ],
             [
                 'day' => 1,
@@ -89,7 +93,7 @@ class ScheduleSeeder extends Seeder
                 'session_name' => 'Break & Gala Dinner Preparation',
                 'topic_description' => 'Prayer, rest, networking, and preparation for Gala Dinner',
                 'speaker' => 'Committee',
-                'is_break' => 1, // Waktu istirahat
+                'is_break' => 1, 
             ],
             [
                 'day' => 1,
@@ -131,7 +135,7 @@ class ScheduleSeeder extends Seeder
                 'session_name' => 'Networking Lunch & Break',
                 'topic_description' => 'Lunch, prayer, networking, institutional engagement.',
                 'speaker' => 'Committee',
-                'is_break' => 1, // Waktu istirahat
+                'is_break' => 1, 
             ],
             [
                 'day' => 2,
@@ -155,7 +159,7 @@ class ScheduleSeeder extends Seeder
                 'session_name' => 'Break & Preparation',
                 'topic_description' => 'Rest, prayer, and preparation for the closing program',
                 'speaker' => 'Protocol & Committee',
-                'is_break' => 1, // Waktu istirahat
+                'is_break' => 1, 
             ],
             [
                 'day' => 2,
@@ -175,15 +179,10 @@ class ScheduleSeeder extends Seeder
             ],
         ];
 
+        // 3. MASUKKAN DATA BARU
         foreach ($schedules as $schedule) {
-            Schedule::updateOrCreate(
-                [
-                    'day' => $schedule['day'],
-                    'time_range' => $schedule['time_range'],
-                    'session_name' => $schedule['session_name']
-                ],
-                $schedule
-            );
+            // Kita ganti pakai create saja biar langsung masuk
+            Schedule::create($schedule);
         }
     }
 }
