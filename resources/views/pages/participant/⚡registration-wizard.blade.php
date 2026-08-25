@@ -295,7 +295,7 @@ new #[Layout('layouts::app')] class extends Component
             . "Best regards,\n*GIHES 2026 Committee*";
 
         Http::withHeaders([
-            'Authorization' => 'cj9pJXa3FzkQFMXSyCff'
+            'Authorization' => 'eYx7Pa6K2xiSE4s9aQxo'
         ])->post('https://api.fonnte.com/send', [
             'target' => $user->whatsapp,
             'message' => $pesan,

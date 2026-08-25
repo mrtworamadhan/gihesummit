@@ -401,7 +401,7 @@
         </div>
     </section>
 
-    <section id="speakers" class="py-24 bg-[#12241C] relative z-10 overflow-hidden">
+    <!-- <section id="speakers" class="py-24 bg-[#12241C] relative z-10 overflow-hidden">
         <div class="max-w-[90rem] mx-auto px-4 md:px-12">
             
             <div class="text-center mb-16">
@@ -625,6 +625,27 @@
                     <p class="text-gray-400 text-[11px] leading-relaxed">Indonesian Muslim Scholar</p>
                 </div>
 
+            </div>
+
+        </div>
+    </section> -->
+
+    <section class="py-16 md:py-24 bg-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+            
+            <div class="text-center mb-10">
+                <h2 class="font-gontor text-3xl md:text-5xl font-bold text-[#1B1B1B] uppercase">
+                    Our Distinguished Speakers
+                </h2>
+                <div class="h-[2px] w-24 mx-auto bg-[#1B1B1B] mt-4"></div>
+            </div>
+
+            <div class="w-full flex justify-center">
+                <img 
+                    src="{{ asset('images/gihes-speakers-rev.png') }}" 
+                    alt="GIHES 2026 Speakers" 
+                    class="w-full h-auto object-contain rounded-xl shadow-xl hover:shadow-2xl transition-shadow duration-300"
+                >
             </div>
 
         </div>
