@@ -99,11 +99,13 @@ class RegistrationForm
                             ->label('Preferred Working Groups')
                             ->multiple()
                             ->options([
-                                'Curriculum Design' => 'Curriculum Design',
-                                'Institutional Management' => 'Institutional Management',
-                                'Digital Transformation & AI' => 'Digital Transformation & AI',
-                                'Character Building & Mental Health' => 'Character Building & Mental Health',
-                                'Global Network & MoU' => 'Global Network & MoU',
+                                'Kurikulum Holistik' => 'Kurikulum Holistik',
+                                'Kepemimpinan' => 'Kepemimpinan',
+                                'Pendidikan Bahasa Arab dan Adab' => 'Pendidikan Bahasa Arab dan Adab',
+                                'Foundation & Institutional Development' => 'Foundation & Institutional Development',
+                                'Pesantren dan Mental Health' => 'Pesantren dan Mental Health',
+                                'Digital/AI dalam Pendidikan' => 'Digital/AI dalam Pendidikan'
+
                             ]),
 
                         FileUpload::make('mandate_letter_path')
