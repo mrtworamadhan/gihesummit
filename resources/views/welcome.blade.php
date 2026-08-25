@@ -417,37 +417,28 @@
             </style>
 
             <div class="flex flex-nowrap md:flex-wrap justify-start md:justify-center gap-6 md:gap-8 overflow-x-auto md:overflow-visible snap-x snap-mandatory hide-scrollbar pb-8 md:pb-0 mb-8 md:mb-16 px-4 md:px-0">
-                
                 <div class="flex flex-col items-center text-center shrink-0 snap-center w-[70vw] sm:w-[40vw] md:w-48">
                     <div class="w-40 h-40 rounded-full border-4 border-white overflow-hidden bg-gray-200 shadow-xl mb-4">
-                        <img src="{{ asset('images/speakers/ahmad-muzani.jpg') }}" alt="Ahmad Muzani" class="w-full h-full object-cover" onerror="this.outerHTML='<div class=\'w-full h-full flex items-center justify-center text-gray-500 text-xs\'>Foto</div>'">
+                        <img src="{{ asset('images/speakers/prof-hamid.jpg') }}" alt="Prof. Hamid Fahmy Zarkasyi" class="w-full h-full object-cover" onerror="this.outerHTML='<div class=\'w-full h-full flex items-center justify-center text-gray-500 text-xs\'>Foto</div>'">
                     </div>
-                    <h4 class="text-white font-bold text-lg mb-1 leading-snug">Ahmad Muzani</h4>
-                    <p class="text-gray-400 text-[11px] leading-relaxed">Ketua Majelis Permusyawaratan Rakyat Republik Indonesia (MPR RI)</p>
+                    <h4 class="text-white font-bold text-lg mb-1 leading-snug">Prof. Hamid Fahmy Zarkasyi</h4>
+                    <p class="text-gray-400 text-[11px] leading-relaxed">Rector Of Darussalam Gontor University</p>
                 </div>
 
                 <div class="flex flex-col items-center text-center shrink-0 snap-center w-[70vw] sm:w-[40vw] md:w-48">
                     <div class="w-40 h-40 rounded-full border-4 border-white overflow-hidden bg-gray-200 shadow-xl mb-4">
-                        <img src="{{ asset('images/speakers/prof-nasarudin.jpg') }}" alt="Prof. Dr. H. Nasaruddin Umar" class="w-full h-full object-cover" onerror="this.outerHTML='<div class=\'w-full h-full flex items-center justify-center text-gray-500 text-xs\'>Foto</div>'">
+                        <img src="{{ asset('images/speakers/kh-akrim.jpg') }}" alt="K.H. Akrim" class="w-full h-full object-cover" onerror="this.outerHTML='<div class=\'w-full h-full flex items-center justify-center text-gray-500 text-xs\'>Foto</div>'">
                     </div>
-                    <h4 class="text-white font-bold text-lg mb-1 leading-snug">Prof. Dr. H. Nasaruddin Umar, M.A.</h4>
-                    <p class="text-gray-400 text-[11px] leading-relaxed">Menteri Agama Indonesia ke-25</p>
+                    <h4 class="text-white font-bold text-lg mb-1 leading-snug">Drs. K.H. M. Akrim Mariyat, Dipl.A.Ed</h4>
+                    <p class="text-gray-400 text-[11px] leading-relaxed">Headmaster of Pondok Modern Darussalam Gontor</p>
                 </div>
 
                 <div class="flex flex-col items-center text-center shrink-0 snap-center w-[70vw] sm:w-[40vw] md:w-48">
                     <div class="w-40 h-40 rounded-full border-4 border-white overflow-hidden bg-gray-200 shadow-xl mb-4">
-                        <img src="{{ asset('images/speakers/prof-muti.jpg') }}" alt="Prof. Dr. Abdul Mu'ti" class="w-full h-full object-cover" onerror="this.outerHTML='<div class=\'w-full h-full flex items-center justify-center text-gray-500 text-xs\'>Foto</div>'">
+                        <img src="{{ asset('images/speakers/prof-jk.jpg') }}" alt="Jusuf Kalla" class="w-full h-full object-cover" onerror="this.outerHTML='<div class=\'w-full h-full flex items-center justify-center text-gray-500 text-xs\'>Foto</div>'">
                     </div>
-                    <h4 class="text-white font-bold text-lg mb-1 leading-snug">Prof. Dr. Abdul Mu'ti, M.Ed.</h4>
-                    <p class="text-gray-400 text-[11px] leading-relaxed">Menteri Pendidikan Dasar dan Menengah</p>
-                </div>
-
-                <div class="flex flex-col items-center text-center shrink-0 snap-center w-[70vw] sm:w-[40vw] md:w-48">
-                    <div class="w-40 h-40 rounded-full border-4 border-white overflow-hidden bg-gray-200 shadow-xl mb-4">
-                        <img src="{{ asset('images/speakers/prof-hnw.jpg') }}" alt="Dr. K.H. M. Hidayat Nur Wahid" class="w-full h-full object-cover" onerror="this.outerHTML='<div class=\'w-full h-full flex items-center justify-center text-gray-500 text-xs\'>Foto</div>'">
-                    </div>
-                    <h4 class="text-white font-bold text-lg mb-1 leading-snug">Dr. K.H. M. Hidayat Nur Wahid, M.A.</h4>
-                    <p class="text-gray-400 text-[11px] leading-relaxed">Ketua Badan Wakaf Pondok Modern Darussalam Gontor</p>
+                    <h4 class="text-white font-bold text-lg mb-1 leading-snug">Dr. (H.C) Drs. H. Muhammad Jusuf Kalla</h4>
+                    <p class="text-gray-400 text-[11px] leading-relaxed">Former Vice President of The Republic of Indonesia</p>
                 </div>
 
                 <div class="flex flex-col items-center text-center shrink-0 snap-center w-[70vw] sm:w-[40vw] md:w-48">
@@ -455,55 +446,53 @@
                         <img src="{{ asset('images/speakers/kh-hasan.jpeg') }}" alt="K.H. Hasan Abdullah Sahal" class="w-full h-full object-cover" onerror="this.outerHTML='<div class=\'w-full h-full flex items-center justify-center text-gray-500 text-xs\'>Foto</div>'">
                     </div>
                     <h4 class="text-white font-bold text-lg mb-1 leading-snug">K.H. Hasan Abdullah Sahal</h4>
-                    <p class="text-gray-400 text-[11px] leading-relaxed">Pimpinan Pondok Modern Darussalam Gontor</p>
+                    <p class="text-gray-400 text-[11px] leading-relaxed">Headmaster of Pondok Modern Darussalam Gontor</p>
                 </div>
 
                 <div class="flex flex-col items-center text-center shrink-0 snap-center w-[70vw] sm:w-[40vw] md:w-48">
                     <div class="w-40 h-40 rounded-full border-4 border-white overflow-hidden bg-gray-200 shadow-xl mb-4">
-                        <img src="{{ asset('images/speakers/prof-hamid.jpg') }}" alt="Prof. Hamid Fahmy Zarkasyi" class="w-full h-full object-cover" onerror="this.outerHTML='<div class=\'w-full h-full flex items-center justify-center text-gray-500 text-xs\'>Foto</div>'">
+                        <img src="{{ asset('images/speakers/ahmad-muzani.jpg') }}" alt="Ahmad Muzani" class="w-full h-full object-cover" onerror="this.outerHTML='<div class=\'w-full h-full flex items-center justify-center text-gray-500 text-xs\'>Foto</div>'">
                     </div>
-                    <h4 class="text-white font-bold text-lg mb-1 leading-snug">Prof. Hamid Fahmy Zarkasyi</h4>
-                    <p class="text-gray-400 text-[11px] leading-relaxed">Rektor Universitas Darussalam Gontor</p>
+                    <h4 class="text-white font-bold text-lg mb-1 leading-snug">H. Ahmad Muzani</h4>
+                    <p class="text-gray-400 text-[11px] leading-relaxed">Chairman of the People's Consultive Assembly of The Republic of Indonesia (MPR RI)</p>
                 </div>
+
+                <div class="flex flex-col items-center text-center shrink-0 snap-center w-[70vw] sm:w-[40vw] md:w-48">
+                    <div class="w-40 h-40 rounded-full border-4 border-white overflow-hidden bg-gray-200 shadow-xl mb-4">
+                        <img src="{{ asset('images/speakers/prof-hnw.jpg') }}" alt="Dr. K.H. M. Hidayat Nur Wahid" class="w-full h-full object-cover" onerror="this.outerHTML='<div class=\'w-full h-full flex items-center justify-center text-gray-500 text-xs\'>Foto</div>'">
+                    </div>
+                    <h4 class="text-white font-bold text-lg mb-1 leading-snug">Dr. K.H. M. Hidayat Nur Wahid, M.A.</h4>
+                    <p class="text-gray-400 text-[11px] leading-relaxed">Chairman of the Waqf Board of Pondok Modern Darussalam Gontor</p>
+                </div>
+
+                <div class="flex flex-col items-center text-center shrink-0 snap-center w-[70vw] sm:w-[40vw] md:w-48">
+                    <div class="w-40 h-40 rounded-full border-4 border-white overflow-hidden bg-gray-200 shadow-xl mb-4">
+                        <img src="{{ asset('images/speakers/prof-muti.jpg') }}" alt="Prof. Dr. Abdul Mu'ti" class="w-full h-full object-cover" onerror="this.outerHTML='<div class=\'w-full h-full flex items-center justify-center text-gray-500 text-xs\'>Foto</div>'">
+                    </div>
+                    <h4 class="text-white font-bold text-lg mb-1 leading-snug">Prof. Dr. Abdul Mu'ti, M.Ed.</h4>
+                    <p class="text-gray-400 text-[11px] leading-relaxed">Minister of Primary and Secondary Education of the Republic of Indonesia</p>
+                </div>
+
+                <div class="flex flex-col items-center text-center shrink-0 snap-center w-[70vw] sm:w-[40vw] md:w-48">
+                    <div class="w-40 h-40 rounded-full border-4 border-white overflow-hidden bg-gray-200 shadow-xl mb-4">
+                        <img src="{{ asset('images/speakers/prof-nasarudin.jpg') }}" alt="Prof. Dr. H. Nasaruddin Umar" class="w-full h-full object-cover" onerror="this.outerHTML='<div class=\'w-full h-full flex items-center justify-center text-gray-500 text-xs\'>Foto</div>'">
+                    </div>
+                    <h4 class="text-white font-bold text-lg mb-1 leading-snug">Prof. Dr. H. Nasaruddin Umar, M.A.</h4>
+                    <p class="text-gray-400 text-[11px] leading-relaxed">Minister of Religious Affairs of the Republic of Indonesia</p>
+                </div>
+
+                <div class="flex flex-col items-center text-center shrink-0 snap-center w-[70vw] sm:w-[40vw] md:w-48">
+                    <div class="w-40 h-40 rounded-full border-4 border-white overflow-hidden bg-gray-200 shadow-xl mb-4">
+                        <img src="{{ asset('images/speakers/prof-din.jpg') }}" alt="Prof. Dr. H. M. Sirajudin Syamsuddin" class="w-full h-full object-cover" onerror="this.outerHTML='<div class=\'w-full h-full flex items-center justify-center text-gray-500 text-xs\'>Foto</div>'">
+                    </div>
+                    <h4 class="text-white font-bold text-lg mb-1 leading-snug">Prof. Dr. H. M. Sirajudin Syamsuddin, M.A., Ph.D</h4>
+                    <p class="text-gray-400 text-[11px] leading-relaxed">Profesor of Islamic Political Science at UIN Syarih Hidayatullah Jakarta</p>
+                </div>              
 
             </div>
 
 
             <div class="flex flex-nowrap md:flex-wrap justify-start md:justify-center gap-6 md:gap-8 overflow-x-auto md:overflow-visible snap-x snap-mandatory hide-scrollbar pb-8 md:pb-0 px-4 md:px-0">
-                
-                <div class="flex flex-col items-center text-center shrink-0 snap-center w-[70vw] sm:w-[40vw] md:w-48 mt-4 md:mt-6">
-                    <div class="relative mb-4">
-                        <span class="absolute -top-4 left-1/2 -translate-x-1/2 bg-white text-[#12241C] text-xs font-bold px-3 py-1 rounded shadow-md z-10 uppercase tracking-widest">Turkey</span>
-                        <div class="w-40 h-40 rounded-full border-4 border-white overflow-hidden bg-gray-200 shadow-xl relative z-0">
-                            <img src="{{ asset('images/speakers/prof-nuri.jpg') }}" alt="Prof. Dr. Nuri Tinaz" class="w-full h-full object-cover" onerror="this.outerHTML='<div class=\'w-full h-full flex items-center justify-center text-gray-500 text-xs\'>Foto</div>'">
-                        </div>
-                    </div>
-                    <h4 class="text-white font-bold text-lg mb-1 leading-snug">Prof. Dr. Nuri Tınaz</h4>
-                    <p class="text-gray-400 text-[11px] leading-relaxed">Professor at Department of Sociology, Turkey</p>
-                </div>
-
-                <div class="flex flex-col items-center text-center shrink-0 snap-center w-[70vw] sm:w-[40vw] md:w-48 mt-4 md:mt-6">
-                    <div class="relative mb-4">
-                        <span class="absolute -top-4 left-1/2 -translate-x-1/2 bg-white text-[#12241C] text-xs font-bold px-3 py-1 rounded shadow-md z-10 uppercase tracking-widest">Indonesia</span>
-                        <div class="w-40 h-40 rounded-full border-4 border-white overflow-hidden bg-gray-200 shadow-xl relative z-0">
-                            <img src="{{ asset('images/speakers/prof-amin.jpg') }}" alt="Prof. Dr. M. Amin Abdullah" class="w-full h-full object-cover" onerror="this.outerHTML='<div class=\'w-full h-full flex items-center justify-center text-gray-500 text-xs\'>Foto</div>'">
-                        </div>
-                    </div>
-                    <h4 class="text-white font-bold text-lg mb-1 leading-snug">Prof. Dr. M. Amin Abdullah</h4>
-                    <p class="text-gray-400 text-[11px] leading-relaxed">Cendekiawan Muslim Indonesia</p>
-                </div>
-
-                <div class="flex flex-col items-center text-center shrink-0 snap-center w-[70vw] sm:w-[40vw] md:w-48 mt-4 md:mt-6">
-                    <div class="relative mb-4">
-                        <span class="absolute -top-4 left-1/2 -translate-x-1/2 bg-white text-[#12241C] text-xs font-bold px-3 py-1 rounded shadow-md z-10 uppercase tracking-widest">UK</span>
-                        <div class="w-40 h-40 rounded-full border-4 border-white overflow-hidden bg-gray-200 shadow-xl relative z-0">
-                            <img src="{{ asset('images/speakers/datuk-afifi.jpg') }}" alt="Datuk Dr. Afifi Al-Akiti" class="w-full h-full object-cover" onerror="this.outerHTML='<div class=\'w-full h-full flex items-center justify-center text-gray-500 text-xs\'>Foto</div>'">
-                        </div>
-                    </div>
-                    <h4 class="text-white font-bold text-lg mb-1 leading-snug">Datuk Dr. Afifi Al-Akiti</h4>
-                    <p class="text-gray-400 text-[11px] leading-relaxed">Dosen Fakultas Teologi dan Agama Universitas Oxford</p>
-                </div>
-
                 <div class="flex flex-col items-center text-center shrink-0 snap-center w-[70vw] sm:w-[40vw] md:w-48 mt-4 md:mt-6">
                     <div class="relative mb-4">
                         <span class="absolute -top-4 left-1/2 -translate-x-1/2 bg-white text-[#12241C] text-xs font-bold px-3 py-1 rounded shadow-md z-10 uppercase tracking-widest">India</span>
@@ -517,6 +506,28 @@
 
                 <div class="flex flex-col items-center text-center shrink-0 snap-center w-[70vw] sm:w-[40vw] md:w-48 mt-4 md:mt-6">
                     <div class="relative mb-4">
+                        <span class="absolute -top-4 left-1/2 -translate-x-1/2 bg-white text-[#12241C] text-xs font-bold px-3 py-1 rounded shadow-md z-10 uppercase tracking-widest">Turkey</span>
+                        <div class="w-40 h-40 rounded-full border-4 border-white overflow-hidden bg-gray-200 shadow-xl relative z-0">
+                            <img src="{{ asset('images/speakers/prof-nuri.jpg') }}" alt="Prof. Dr. Nuri Tinaz" class="w-full h-full object-cover" onerror="this.outerHTML='<div class=\'w-full h-full flex items-center justify-center text-gray-500 text-xs\'>Foto</div>'">
+                        </div>
+                    </div>
+                    <h4 class="text-white font-bold text-lg mb-1 leading-snug">Prof. Dr. Nuri Tınaz</h4>
+                    <p class="text-gray-400 text-[11px] leading-relaxed">Professor at Department of Sociology, Turkey</p>
+                </div>
+
+                <div class="flex flex-col items-center text-center shrink-0 snap-center w-[70vw] sm:w-[40vw] md:w-48 mt-4 md:mt-6">
+                    <div class="relative mb-4">
+                        <span class="absolute -top-4 left-1/2 -translate-x-1/2 bg-white text-[#12241C] text-xs font-bold px-3 py-1 rounded shadow-md z-10 uppercase tracking-widest">Japan</span>
+                        <div class="w-40 h-40 rounded-full border-4 border-white overflow-hidden bg-gray-200 shadow-xl relative z-0">
+                            <img src="{{ asset('images/speakers/prof-ryoko.jpg') }}" alt="Prof. Dr. Ryoko" class="w-full h-full object-cover" onerror="this.outerHTML='<div class=\'w-full h-full flex items-center justify-center text-gray-500 text-xs\'>Foto</div>'">
+                        </div>
+                    </div>
+                    <h4 class="text-white font-bold text-lg mb-1 leading-snug">Prof. Dr. Ryoko Tsuneyoshi</h4>
+                    <p class="text-gray-400 text-[11px] leading-relaxed">Bunkyo Gakin University, Tokyo, Japan</p>
+                </div>
+
+                <div class="flex flex-col items-center text-center shrink-0 snap-center w-[70vw] sm:w-[40vw] md:w-48 mt-4 md:mt-6">
+                    <div class="relative mb-4">
                         <span class="absolute -top-4 left-1/2 -translate-x-1/2 bg-white text-[#12241C] text-xs font-bold px-3 py-1 rounded shadow-md z-10 uppercase tracking-widest">Malaysia</span>
                         <div class="w-40 h-40 rounded-full border-4 border-white overflow-hidden bg-gray-200 shadow-xl relative z-0">
                             <img src="{{ asset('images/speakers/prof.norazah.jpeg') }}" alt="Prof. Dato. Ts. Dr. Norazah Mohd. Nordin" class="w-full h-full object-cover" onerror="this.outerHTML='<div class=\'w-full h-full flex items-center justify-center text-gray-500 text-xs\'>Foto</div>'">
@@ -525,6 +536,109 @@
                     <h4 class="text-white font-bold text-lg mb-1 leading-snug">Prof. Dato. Ts. Dr. Norazah Mohd. Nordin</h4>
                     <p class="text-gray-400 text-[11px] leading-relaxed">Universiti Kebangsaan Malaysia</p>
                 </div>
+
+                <div class="flex flex-col items-center text-center shrink-0 snap-center w-[70vw] sm:w-[40vw] md:w-48 mt-4 md:mt-6">
+                    <div class="relative mb-4">
+                        <span class="absolute -top-4 left-1/2 -translate-x-1/2 bg-white text-[#12241C] text-xs font-bold px-3 py-1 rounded shadow-md z-10 uppercase tracking-widest">Indonesia</span>
+                        <div class="w-40 h-40 rounded-full border-4 border-white overflow-hidden bg-gray-200 shadow-xl relative z-0">
+                            <img src="{{ asset('images/speakers/prof-amin.jpg') }}" alt="Prof. Dr. M. Amin Abdullah" class="w-full h-full object-cover" onerror="this.outerHTML='<div class=\'w-full h-full flex items-center justify-center text-gray-500 text-xs\'>Foto</div>'">
+                        </div>
+                    </div>
+                    <h4 class="text-white font-bold text-lg mb-1 leading-snug">Prof. Dr. M. Amin Abdullah</h4>
+                    <p class="text-gray-400 text-[11px] leading-relaxed">Indonesian Muslim Scholar</p>
+                </div>
+
+                <div class="flex flex-col items-center text-center shrink-0 snap-center w-[70vw] sm:w-[40vw] md:w-48 mt-4 md:mt-6">
+                    <div class="relative mb-4">
+                        <span class="absolute -top-4 left-1/2 -translate-x-1/2 bg-white text-[#12241C] text-xs font-bold px-3 py-1 rounded shadow-md z-10 uppercase tracking-widest">Indonesia</span>
+                        <div class="w-40 h-40 rounded-full border-4 border-white overflow-hidden bg-gray-200 shadow-xl relative z-0">
+                            <img src="{{ asset('images/speakers/tb-ace.jpg') }}" alt="Dr. TB. Ace Hasan" class="w-full h-full object-cover" onerror="this.outerHTML='<div class=\'w-full h-full flex items-center justify-center text-gray-500 text-xs\'>Foto</div>'">
+                        </div>
+                    </div>
+                    <h4 class="text-white font-bold text-lg mb-1 leading-snug">Dr. TB. Ace Hasan Syadzily, M.Si.</h4>
+                    <p class="text-gray-400 text-[11px] leading-relaxed">Governor of the National Resilience Institute (Lemhanas RI)</p>
+                </div>
+
+                <div class="flex flex-col items-center text-center shrink-0 snap-center w-[70vw] sm:w-[40vw] md:w-48 mt-4 md:mt-6">
+                    <div class="relative mb-4">
+                        <span class="absolute -top-4 left-1/2 -translate-x-1/2 bg-white text-[#12241C] text-xs font-bold px-3 py-1 rounded shadow-md z-10 uppercase tracking-widest">Indonesia</span>
+                        <div class="w-40 h-40 rounded-full border-4 border-white overflow-hidden bg-gray-200 shadow-xl relative z-0">
+                            <img src="{{ asset('images/speakers/prof-arif-satria.jpg') }}" alt="Prof Arif" class="w-full h-full object-cover" onerror="this.outerHTML='<div class=\'w-full h-full flex items-center justify-center text-gray-500 text-xs\'>Foto</div>'">
+                        </div>
+                    </div>
+                    <h4 class="text-white font-bold text-lg mb-1 leading-snug">Prof. Dr. Arif Satria, S.P, M.S.i</h4>
+                    <p class="text-gray-400 text-[11px] leading-relaxed">Head of the National Research and Innovation Agency (BRIN)</p>
+                </div>
+
+                <div class="flex flex-col items-center text-center shrink-0 snap-center w-[70vw] sm:w-[40vw] md:w-48 mt-4 md:mt-6">
+                    <div class="relative mb-4">
+                        <span class="absolute -top-4 left-1/2 -translate-x-1/2 bg-white text-[#12241C] text-xs font-bold px-3 py-1 rounded shadow-md z-10 uppercase tracking-widest">Indonesia</span>
+                        <div class="w-40 h-40 rounded-full border-4 border-white overflow-hidden bg-gray-200 shadow-xl relative z-0">
+                            <img src="{{ asset('images/speakers/prof-amin-suyitno.jpg') }}" alt="Prof Amin" class="w-full h-full object-cover" onerror="this.outerHTML='<div class=\'w-full h-full flex items-center justify-center text-gray-500 text-xs\'>Foto</div>'">
+                        </div>
+                    </div>
+                    <h4 class="text-white font-bold text-lg mb-1 leading-snug">Prof. Dr. H. Amien Suyitno, M.Ag.</h4>
+                    <p class="text-gray-400 text-[11px] leading-relaxed">Director General of Islamic Education</p>
+                </div>
+
+                <div class="flex flex-col items-center text-center shrink-0 snap-center w-[70vw] sm:w-[40vw] md:w-48 mt-4 md:mt-6">
+                    <div class="relative mb-4">
+                        <span class="absolute -top-4 left-1/2 -translate-x-1/2 bg-white text-[#12241C] text-xs font-bold px-3 py-1 rounded shadow-md z-10 uppercase tracking-widest">Indonesia</span>
+                        <div class="w-40 h-40 rounded-full border-4 border-white overflow-hidden bg-gray-200 shadow-xl relative z-0">
+                            <img src="{{ asset('images/speakers/dr-basnang.webp') }}" alt="Dr Basnang" class="w-full h-full object-cover" onerror="this.outerHTML='<div class=\'w-full h-full flex items-center justify-center text-gray-500 text-xs\'>Foto</div>'">
+                        </div>
+                    </div>
+                    <h4 class="text-white font-bold text-lg mb-1 leading-snug">Dr. H. Basnang Said, S.Ag., M.Ag.</h4>
+                    <p class="text-gray-400 text-[11px] leading-relaxed">Director of Islamic Boarding Schools and Diniyah Education</p>
+                </div>
+
+                <div class="flex flex-col items-center text-center shrink-0 snap-center w-[70vw] sm:w-[40vw] md:w-48 mt-4 md:mt-6">
+                    <div class="relative mb-4">
+                        <span class="absolute -top-4 left-1/2 -translate-x-1/2 bg-white text-[#12241C] text-xs font-bold px-3 py-1 rounded shadow-md z-10 uppercase tracking-widest">Indonesia</span>
+                        <div class="w-40 h-40 rounded-full border-4 border-white overflow-hidden bg-gray-200 shadow-xl relative z-0">
+                            <img src="{{ asset('images/speakers/asep-saepudin-jahar.jpg') }}" alt="Prof Asep" class="w-full h-full object-cover" onerror="this.outerHTML='<div class=\'w-full h-full flex items-center justify-center text-gray-500 text-xs\'>Foto</div>'">
+                        </div>
+                    </div>
+                    <h4 class="text-white font-bold text-lg mb-1 leading-snug">Prof. Asep Saepudin Jahar, M.A, Ph.D.</h4>
+                    <p class="text-gray-400 text-[11px] leading-relaxed">Rector of UIN Syarif Hidayatullah Jakarta</p>
+                </div>
+
+                <div class="flex flex-col items-center text-center shrink-0 snap-center w-[70vw] sm:w-[40vw] md:w-48 mt-4 md:mt-6">
+                    <div class="relative mb-4">
+                        <span class="absolute -top-4 left-1/2 -translate-x-1/2 bg-white text-[#12241C] text-xs font-bold px-3 py-1 rounded shadow-md z-10 uppercase tracking-widest">Indonesia</span>
+                        <div class="w-40 h-40 rounded-full border-4 border-white overflow-hidden bg-gray-200 shadow-xl relative z-0">
+                            <img src="{{ asset('images/speakers/kh-zulkifli.jpg') }}" alt="Dr. K.H L. Zulkifli Muhadli" class="w-full h-full object-cover" onerror="this.outerHTML='<div class=\'w-full h-full flex items-center justify-center text-gray-500 text-xs\'>Foto</div>'">
+                        </div>
+                    </div>
+                    <h4 class="text-white font-bold text-lg mb-1 leading-snug">Dr. K.H L. Zulkifli Muhadli, B.A, S.H., M.M</h4>
+                    <p class="text-gray-400 text-[11px] leading-relaxed">Chairman of the Gontor Alumni Forum (FPAG)</p>
+                </div>
+
+                <div class="flex flex-col items-center text-center shrink-0 snap-center w-[70vw] sm:w-[40vw] md:w-48 mt-4 md:mt-6">
+                    <div class="relative mb-4">
+                        <span class="absolute -top-4 left-1/2 -translate-x-1/2 bg-white text-[#12241C] text-xs font-bold px-3 py-1 rounded shadow-md z-10 uppercase tracking-widest">Indonesia</span>
+                        <div class="w-40 h-40 rounded-full border-4 border-white overflow-hidden bg-gray-200 shadow-xl relative z-0">
+                            <img src="{{ asset('images/speakers/yudi-latif.jpg') }}" alt="Yudi Latief" class="w-full h-full object-cover" onerror="this.outerHTML='<div class=\'w-full h-full flex items-center justify-center text-gray-500 text-xs\'>Foto</div>'">
+                        </div>
+                    </div>
+                    <h4 class="text-white font-bold text-lg mb-1 leading-snug">Yudi Latief, M.A., Ph.D</h4>
+                    <p class="text-gray-400 text-[11px] leading-relaxed">Indonesian Muslim Scholar</p>
+                </div>
+
+                <div class="flex flex-col items-center text-center shrink-0 snap-center w-[70vw] sm:w-[40vw] md:w-48 mt-4 md:mt-6">
+                    <div class="relative mb-4">
+                        <span class="absolute -top-4 left-1/2 -translate-x-1/2 bg-white text-[#12241C] text-xs font-bold px-3 py-1 rounded shadow-md z-10 uppercase tracking-widest">UK</span>
+                        <div class="w-40 h-40 rounded-full border-4 border-white overflow-hidden bg-gray-200 shadow-xl relative z-0">
+                            <img src="{{ asset('images/speakers/datuk-afifi.jpg') }}" alt="Datuk Dr. Afifi Al-Akiti" class="w-full h-full object-cover" onerror="this.outerHTML='<div class=\'w-full h-full flex items-center justify-center text-gray-500 text-xs\'>Foto</div>'">
+                        </div>
+                    </div>
+                    <h4 class="text-white font-bold text-lg mb-1 leading-snug">Datuk Dr. Afifi Al-Akiti</h4>
+                    <p class="text-gray-400 text-[11px] leading-relaxed">Dosen Fakultas Teologi dan Agama Universitas Oxford</p>
+                </div>
+
+                
+
+                
 
             </div>
 
