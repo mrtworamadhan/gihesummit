@@ -642,7 +642,7 @@
 
             <div class="w-full flex justify-center">
                 <img 
-                    src="{{ asset('images/gihes-speakers-rev.jpg') }}" 
+                    src="{{ asset('images/gihes-speakers-rev.png') }}" 
                     alt="GIHES 2026 Speakers" 
                     class="w-full h-auto object-contain rounded-xl shadow-xl hover:shadow-2xl transition-shadow duration-300"
                 >
