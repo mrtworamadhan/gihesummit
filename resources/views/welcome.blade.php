@@ -53,7 +53,7 @@
                     
                     <div class="h-10 w-[1px] bg-[#8C8A7D]"></div>
                     
-                    <img src="{{ asset('images/gihes.png') }}" alt="GIHES 2026" class="h-12 md:h-14 w-auto object-contain min-w-[100px]" onerror="this.outerHTML='<div class=\'h-12 w-28 bg-gray-200 border border-gray-300 flex items-center justify-center text-[10px] text-gray-500 rounded\'>Logo GIHES</div>'">
+                    <img src="{{ asset('images/logo-gihes-rev.png') }}" alt="GIHES 2026" class="h-12 md:h-14 w-auto object-contain min-w-[100px]" onerror="this.outerHTML='<div class=\'h-12 w-28 bg-gray-200 border border-gray-300 flex items-center justify-center text-[10px] text-gray-500 rounded\'>Logo GIHES</div>'">
                 </div>
                 
                 <div class="flex items-center">

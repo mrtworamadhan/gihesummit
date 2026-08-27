@@ -38,7 +38,7 @@
                     
                     <div class="h-10 w-[1px] bg-[#8C8A7D]"></div>
                     
-                    <img src="{{ asset('images/gihes.png') }}" alt="GIHES 2026" class="h-10 md:h-12 w-auto object-contain min-w-[100px]" onerror="this.outerHTML='<div class=\'h-12 w-28 bg-gray-200 border border-gray-300 flex items-center justify-center text-[10px] text-gray-500 rounded\'>Logo GIHES</div>'">
+                    <img src="{{ asset('images/logo-gihes-rev.png') }}" alt="GIHES 2026" class="h-10 md:h-12 w-auto object-contain min-w-[100px]" onerror="this.outerHTML='<div class=\'h-12 w-28 bg-gray-200 border border-gray-300 flex items-center justify-center text-[10px] text-gray-500 rounded\'>Logo GIHES</div>'">
                 </div>
                 <button @click="sidebarOpen = false" class="lg:hidden absolute right-4 text-gray-400 hover:text-white">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>

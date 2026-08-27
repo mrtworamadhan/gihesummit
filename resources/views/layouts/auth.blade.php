@@ -11,13 +11,13 @@
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:title" content="Dashboard | GIHES 2026">
     <meta property="og:description" content="Participant Portal GIHES 2026. Kelola registrasi dan akomodasi Anda di sini.">
-    <meta property="og:image" content="{{ asset('images/logo-gihes.png') }}">
+    <meta property="og:image" content="{{ asset('images/logo-gihes-rev.png') }}">
 
     <meta name="twitter:card" content="summary">
     <meta name="twitter:url" content="{{ url()->current() }}">
     <meta name="twitter:title" content="Dashboard | GIHES 2026">
     <meta name="twitter:description" content="Participant Portal GIHES 2026. Kelola registrasi dan akomodasi Anda di sini.">
-    <meta name="twitter:image" content="{{ asset('images/logo-gihes.png') }}">
+    <meta name="twitter:image" content="{{ asset('images/logo-gihes-rev.png') }}">
 
     <link rel="icon" type="image/png" href="{{ asset('images/favicon.png') }}">
     
@@ -36,7 +36,7 @@
                             
                             <div class="h-10 w-[1px] bg-[#8C8A7D]"></div>
                             
-                            <img src="{{ asset('images/gihes.png') }}" alt="GIHES 2026" class="h-10 md:h-10 w-auto object-contain min-w-[100px]" onerror="this.outerHTML='<div class=\'h-12 w-28 bg-gray-200 border border-gray-300 flex items-center justify-center text-[10px] text-gray-500 rounded\'>Logo GIHES</div>'">
+                            <img src="{{ asset('images/logo-gihes-rev.png') }}" alt="GIHES 2026" class="h-10 md:h-10 w-auto object-contain min-w-[100px]" onerror="this.outerHTML='<div class=\'h-12 w-28 bg-gray-200 border border-gray-300 flex items-center justify-center text-[10px] text-gray-500 rounded\'>Logo GIHES</div>'">
                         </div>
 
                         <div class="hidden sm:block h-6 w-px bg-gray-300"></div>
