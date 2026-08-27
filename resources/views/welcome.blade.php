@@ -721,6 +721,20 @@
         </div>
     </section>
 
+    <section class="my-20 md:my-32 bg-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+
+            <div class="w-full flex justify-center">
+                <img 
+                    src="{{ asset('images/sponsor.png') }}" 
+                    alt="GIHES 2026 Sponsor" 
+                    class="w-full h-auto object-contain rounded-xl shadow-xl hover:shadow-2xl transition-shadow duration-300"
+                >
+            </div>
+
+        </div>
+    </section>
+
     <section class="py-20 bg-[#2B2D26] relative z-10 border-t-4 border-[#C0A062]">
         <div class="max-w-7xl mx-auto px-6 md:px-12">
             
@@ -758,12 +772,12 @@
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         
-                        <a href="#" class="flex justify-center items-center gap-2 border border-gray-500 hover:border-white text-gray-300 hover:text-white px-6 py-3 rounded-sm font-semibold tracking-wide transition-colors">
+                        <a href="{{ asset('documents/sponsorship.pdf') }}" download="GIHES_Sponsorship_2026.pdf" class="flex justify-center items-center gap-2 border border-gray-500 hover:border-white text-gray-300 hover:text-white px-6 py-3 rounded-sm font-semibold tracking-wide transition-colors">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                             <span>PDF Sponsorship</span>
                         </a>
 
-                        <a href="#" class="flex justify-center items-center gap-2 border border-gray-500 hover:border-white text-gray-300 hover:text-white px-6 py-3 rounded-sm font-semibold tracking-wide transition-colors">
+                        <a href="{{ asset('documents/schedule.pdf') }}" download="GIHES_Schedule_2026.pdf" class="flex justify-center items-center gap-2 border border-gray-500 hover:border-white text-gray-300 hover:text-white px-6 py-3 rounded-sm font-semibold tracking-wide transition-colors">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                             <span>Event Schedule</span>
                         </a>
