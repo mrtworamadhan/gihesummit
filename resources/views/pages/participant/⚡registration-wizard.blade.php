@@ -38,7 +38,7 @@ new #[Layout('layouts::app')] class extends Component
     // STEP 3
     public $mandate_letter; 
     public $consent_data_use = true;
-    public $selected_classes = [];
+    public $selected_class = null;
 
     // STEP 4
     public $payment_currency, $base_amount = 0, $unique_code = 0, $final_amount = 0;
@@ -101,7 +101,7 @@ new #[Layout('layouts::app')] class extends Component
                 // Load Riwayat File & Kelas (STEP 3)
                 $this->mandate_letter = $reg->mandate_letter_path; 
                 $this->consent_data_use = $reg->consent_data_use;
-                $this->selected_classes = $reg->additionalClasses->pluck('id')->toArray();
+                $this->selected_class = $reg->additionalClasses->first()?->id;
             }
         }
     }
@@ -168,6 +168,9 @@ new #[Layout('layouts::app')] class extends Component
                     'willingness_to_cosign_declaration' => $this->willingness_to_cosign_declaration,
                 ]
             );
+            if ($this->role_at_summit === 'Special Guest') {
+                $this->selected_room_type = 'Twin';
+            }
         }
         elseif ($this->currentStep == 2) {
             $this->validate([
@@ -203,7 +206,7 @@ new #[Layout('layouts::app')] class extends Component
 
             $registration->update(['consent_data_use' => $this->consent_data_use]);
             
-            $registration->additionalClasses()->sync($this->selected_classes);
+            $registration->additionalClasses()->sync($this->selected_class ? [$this->selected_class] : []);
 
             $this->generateInvoice($registration);
         }
@@ -218,31 +221,35 @@ new #[Layout('layouts::app')] class extends Component
         $this->payment_currency = $this->is_international ? 'USD' : 'IDR';
         $total = 0;
 
-        // $room = Room::find($this->selected_room_id);
-        // if ($room) {
-        //     $total += $this->is_international ? $room->price_usd : $room->price_idr;
-        // }
         if ($this->selected_room_type) {
             $roomPattern = Room::where('type', $this->selected_room_type)->first();
             if ($roomPattern) {
-                $total += $this->is_international ? $roomPattern->price_usd : $roomPattern->price_idr;
+                // Harga 0 jika Special Guest
+                $roomCost = ($this->role_at_summit === 'Special Guest') ? 0 : ($this->is_international ? $roomPattern->price_usd : $roomPattern->price_idr);
+                $total += $roomCost;
             }
         }
 
-        $classes = AdditionalClass::whereIn('id', $this->selected_classes)->get();
-        foreach ($classes as $class) {
-            $total += $this->is_international ? $class->price_usd : $class->price_idr;
+        if ($this->selected_class) {
+            $class = AdditionalClass::find($this->selected_class);
+            if ($class) {
+                $classCost = ($this->role_at_summit === 'Special Guest') ? 0 : ($this->is_international ? $class->price_usd : $class->price_idr);
+                $total += $classCost;
+            }
         }
 
         $this->base_amount = $total;
-        
         $regId = $registration->id; 
 
-        if ($this->payment_currency === 'USD') {
-            $cents = ($regId % 99) + 1;
-            $this->unique_code = round($cents / 100, 2); 
+        if ($this->role_at_summit === 'Special Guest') {
+            $this->unique_code = 0; 
         } else {
-            $this->unique_code = ($regId % 900) + 1;
+            if ($this->payment_currency === 'USD') {
+                $cents = ($regId % 99) + 1;
+                $this->unique_code = round($cents / 100, 2); 
+            } else {
+                $this->unique_code = ($regId % 900) + 1;
+            }
         }
         
         $this->final_amount = $this->base_amount + $this->unique_code;
@@ -257,6 +264,10 @@ new #[Layout('layouts::app')] class extends Component
             'room_id' => null, 
             'room_type_preference' => $this->selected_room_type,
         ]);
+        
+        // Cek jika total 0 (Tamu Spesial), langsung lunas
+        $status = ($this->final_amount == 0) ? 'paid' : 'pending_verification';
+
         Payment::updateOrCreate(
             ['registration_id' => $registration->id],
             [
@@ -265,34 +276,45 @@ new #[Layout('layouts::app')] class extends Component
                 'base_amount' => $this->base_amount,
                 'unique_code' => $this->unique_code,
                 'final_amount' => $this->final_amount,
-                'payment_status' => 'pending_verification', 
+                'payment_status' => $status, 
             ]
         );
 
-        $formattedAmount = $this->payment_currency === 'IDR' 
-            ? 'Rp ' . number_format($this->final_amount, 0, ',', '.') 
-            : '$ ' . number_format($this->final_amount, 2, '.', ',');
-
-        $formattedCode = $this->payment_currency === 'IDR'
-            ? sprintf('%03d', $this->unique_code) 
-            : '+$ ' . number_format($this->unique_code, 2, '.', '');
-
-        $bankDetails = $this->payment_currency === 'IDR'
-            ? "Bank: *BSI (Bank Syariah Indonesia)*\nNo. Rekening: *7353689268*\nAccount Name: *FORUM PESANTREN ALUMNI GONTOR*"
-            : "Bank: *BSI (Bank Syariah Indonesia)*\nNo. Rekening: *7353689268*\nAccount Name: *FORUM PESANTREN ALUMNI GONTOR*";
-
         $dashboardUrl = route('participant.dashboard'); 
         
-        $pesan = "Hello *{$user->name}*,\n\n"
-            . "Thank you for completing your registration for GIHES 2026. Here is your payment invoice:\n\n"
-            . "Category: *" . ($this->is_international ? 'International' : 'Domestic') . "*\n"
-            . "Total Amount: *{$formattedAmount}* (Includes unique code: {$formattedCode})\n\n"
-            . "Please transfer the exact amount to our official account:\n"
-            . "{$bankDetails}\n\n"
-            . "Once you have made the payment, please upload your transfer receipt to confirm your seat via your Participant Dashboard:\n"
-            . "{$dashboardUrl}\n\n"
-            . "Please note that your room and seat are *not secured* until the payment is verified.\n\n"
-            . "Best regards,\n*GIHES 2026 Committee*";
+        // Beda isi Pesan WA
+        if ($this->final_amount > 0) {
+            $formattedAmount = $this->payment_currency === 'IDR' 
+                ? 'Rp ' . number_format($this->final_amount, 0, ',', '.') 
+                : '$ ' . number_format($this->final_amount, 2, '.', ',');
+
+            $formattedCode = $this->payment_currency === 'IDR'
+                ? sprintf('%03d', $this->unique_code) 
+                : '+$ ' . number_format($this->unique_code, 2, '.', '');
+
+            $bankDetails = $this->payment_currency === 'IDR'
+                ? "Bank: *BSI (Bank Syariah Indonesia)*\nNo. Rekening: *7353689268*\nAccount Name: *FORUM PESANTREN ALUMNI GONTOR*"
+                : "Bank: *BSI (Bank Syariah Indonesia)*\nNo. Rekening: *7353689268*\nAccount Name: *FORUM PESANTREN ALUMNI GONTOR*";
+
+            $pesan = "Hello *{$user->name}*,\n\n"
+                . "Thank you for completing your registration for GIHES 2026. Here is your payment invoice:\n\n"
+                . "Category: *" . ($this->is_international ? 'International' : 'Domestic') . "*\n"
+                . "Total Amount: *{$formattedAmount}* (Includes unique code: {$formattedCode})\n\n"
+                . "Please transfer the exact amount to our official account:\n"
+                . "{$bankDetails}\n\n"
+                . "Once you have made the payment, please upload your transfer receipt to confirm your seat via your Participant Dashboard:\n"
+                . "{$dashboardUrl}\n\n"
+                . "Please note that your room and seat are *not secured* until the payment is verified.\n\n"
+                . "Best regards,\n*GIHES 2026 Committee*";
+        } else {
+            // Pesan Untuk Special Guest
+            $pesan = "Hello *{$user->name}*,\n\n"
+                . "Thank you for completing your registration for GIHES 2026 as a *Special Guest*.\n\n"
+                . "Your registration and accommodation (Single Room) have been recorded. There is no payment required for your attendance.\n\n"
+                . "You can check your dashboard for further details:\n"
+                . "{$dashboardUrl}\n\n"
+                . "Best regards,\n*GIHES 2026 Committee*";
+        }
 
         Http::withHeaders([
             'Authorization' => 'eYx7Pa6K2xiSE4s9aQxo'
@@ -303,6 +325,7 @@ new #[Layout('layouts::app')] class extends Component
 
         return redirect()->route('participant.dashboard');
     }
+
 
     public function previousStep()
     {
@@ -478,26 +501,9 @@ new #[Layout('layouts::app')] class extends Component
                                         <select wire:model.live="role_at_summit" class="w-full border border-gray-300 rounded-sm px-4 py-3 focus:ring-2 focus:ring-[#C0A062] bg-white">
                                             <option value="">-- Select Role --</option>
                                             <option value="Participant">Participant</option>
-                                            <!-- <option value="Speaker">Speaker</option>
-                                            <option value="Exhibitor">Exhibitor (Institutional Showcase)</option>
-                                            <option value="Media">Media</option>
-                                            <option value="Partner/Sponsor">Partner / Sponsor</option> -->
+                                            <option value="Special Guest">Special Guest</option>
                                         </select>
                                     </div>
-
-                                    <!-- @if($role_at_summit === 'Exhibitor')
-                                    <div class="animate-fade-in-up">
-                                        <label class="block text-sm font-bold text-gray-700 mb-2">Institutional Showcase Category <span class="text-red-500">*</span></label>
-                                        <select wire:model="showcase_category" class="w-full border border-gray-300 rounded-sm px-4 py-3 focus:ring-2 focus:ring-[#C0A062] bg-white">
-                                            <option value="">-- Select Category --</option>
-                                            <option value="Curriculum">Curriculum</option>
-                                            <option value="Leadership">Leadership</option>
-                                            <option value="Language">Language</option>
-                                            <option value="Organization">Organization</option>
-                                            <option value="Entrepreneurship">Entrepreneurship</option>
-                                        </select>
-                                    </div>
-                                    @endif -->
                                 </div>
 
                                 <div class="grid grid-cols-1 gap-8 mt-6">
@@ -601,6 +607,8 @@ new #[Layout('layouts::app')] class extends Component
                                 <h3 class="text-lg font-bold text-[#1B1B1B] mb-4">Accommodation Setup</h3>
                                 
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+    
+                                    @if($role_at_summit !== 'Special Guest')
                                     <label class="relative cursor-pointer group">
                                         <input type="radio" wire:model.live="selected_room_type" value="Single" class="peer sr-only">
                                         <div class="border-2 rounded-lg p-5 transition-all duration-200 border-gray-200 hover:bg-gray-50 peer-checked:border-[#C0A062] peer-checked:bg-[#C0A062]/10">
@@ -615,31 +623,47 @@ new #[Layout('layouts::app')] class extends Component
                                                 </div>
                                             </div>
                                         </div>
-
                                         <div class="absolute top-2 right-2 opacity-0 peer-checked:opacity-100 text-[#C0A062] transition-opacity">
                                             <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
                                         </div>
                                     </label>
+                                    @else
+                                    <div class="border-2 border-gray-200 rounded-lg p-5 bg-gray-50 opacity-60 cursor-not-allowed">
+                                        <div class="flex justify-between items-center">
+                                            <div>
+                                                <span class="block font-black text-lg text-gray-900">Single Bed</span>
+                                                <span class="block text-sm text-red-500 mt-1">Unavailable for Special Guest</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endif
 
                                     <label class="relative cursor-pointer group">
-                                        <input type="radio" wire:model.live="selected_room_type" value="Twin" class="peer sr-only">
-                                        <div class="border-2 rounded-lg p-5 transition-all duration-200 border-gray-200 hover:bg-gray-50 peer-checked:border-[#C0A062] peer-checked:bg-[#C0A062]/10">
+                                        <input type="radio" wire:model.live="selected_room_type" value="Twin" class="peer sr-only" {{ $role_at_summit === 'Special Guest' ? 'disabled' : '' }}>
+                                        <div class="border-2 rounded-lg p-5 transition-all duration-200 border-gray-200 hover:bg-gray-50 peer-checked:border-[#C0A062] peer-checked:bg-[#C0A062]/10 {{ $role_at_summit === 'Special Guest' ? 'border-[#C0A062] bg-[#C0A062]/10 cursor-not-allowed opacity-90' : '' }}">
                                             <div class="flex justify-between items-center">
                                                 <div>
                                                     <span class="block font-black text-lg text-gray-900">Twin Beds</span>
                                                     <span class="block text-sm text-gray-500 mt-1">2 Beds / Shared</span>
+                                                    @if($role_at_summit === 'Special Guest')
+                                                        <span class="inline-block mt-2 bg-green-100 text-green-700 text-xs font-bold px-2 py-1 rounded">Locked for Special Guest</span>
+                                                    @endif
                                                 </div>
                                                 <div class="text-right">
-                                                    <span class="block font-bold text-[#5A6446]">Rp 3.000.000</span>
-                                                    <span class="block text-xs text-gray-400">/ USD 200</span>
+                                                    @if($role_at_summit === 'Special Guest')
+                                                        <span class="block font-bold text-[#5A6446]">Free</span>
+                                                    @else
+                                                        <span class="block font-bold text-[#5A6446]">Rp 3.000.000</span>
+                                                        <span class="block text-xs text-gray-400">/ USD 200</span>
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <div class="absolute top-2 right-2 opacity-0 peer-checked:opacity-100 text-[#C0A062] transition-opacity">
+                                        <div class="absolute top-2 right-2 opacity-0 peer-checked:opacity-100 text-[#C0A062] transition-opacity {{ $role_at_summit === 'Special Guest' ? 'opacity-100' : '' }}">
                                             <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
                                         </div>
                                     </label>
+                                    
                                 </div>
                                 @error('selected_room_type') <span class="text-red-500 text-xs block mb-4">{{ $message }}</span> @enderror
 
@@ -670,7 +694,7 @@ new #[Layout('layouts::app')] class extends Component
                                 @foreach($this->additionalClassesList as $class)
                                     <label class="flex items-start gap-4 p-4 border border-gray-200 rounded-md cursor-pointer transition-all duration-200 hover:border-[#C0A062] hover:shadow-md bg-white group">
                                         
-                                        <input type="checkbox" wire:model="selected_classes" value="{{ $class->id }}" class="mt-1 w-5 h-5 text-[#C0A062] focus:ring-[#C0A062] rounded-sm cursor-pointer">
+                                        <input type="radio" wire:model.live="selected_class" value="{{ $class->id }}" class="mt-1 w-5 h-5 text-[#C0A062] focus:ring-[#C0A062] rounded-sm cursor-pointer">
                                         
                                         <div class="flex-1 flex justify-between items-start gap-2">
                                             <div>
@@ -780,21 +804,28 @@ new #[Layout('layouts::app')] class extends Component
                                                 </td>
                                             </tr>
                                             
-                                            @foreach($this->additionalClassesList->whereIn('id', $selected_classes) as $class)
+                                            @if($selected_class)
                                                 @php
-                                                    $classPrice = $is_international ? $class->price_usd : $class->price_idr;
+                                                    $class = $this->additionalClassesList->firstWhere('id', $selected_class);
                                                 @endphp
-                                                @if($classPrice > 0)
-                                                <tr>
-                                                    <td class="py-4">
-                                                        <p class="font-bold text-gray-900">{{ $class->name }}</p>
-                                                    </td>
-                                                    <td class="py-4 text-right font-medium text-gray-900">
-                                                        {{ $payment_currency }} {{ $is_international ? number_format($classPrice, 2) : number_format($classPrice, 0, ',', '.') }}
-                                                    </td>
-                                                </tr>
+                                                @if($class)
+                                                    @php
+                                                        $classPrice = ($role_at_summit === 'Special Guest') ? 0 : ($is_international ? $class->price_usd : $class->price_idr);
+                                                    @endphp
+                                                    <tr>
+                                                        <td class="py-4">
+                                                            <p class="font-bold text-gray-900">{{ $class->name }}</p>
+                                                        </td>
+                                                        <td class="py-4 text-right font-medium text-gray-900">
+                                                            @if($classPrice == 0)
+                                                                Free
+                                                            @else
+                                                                {{ $payment_currency }} {{ $is_international ? number_format($classPrice, 2) : number_format($classPrice, 0, ',', '.') }}
+                                                            @endif
+                                                        </td>
+                                                    </tr>
                                                 @endif
-                                            @endforeach
+                                            @endif
                                         </tbody>
                                     </table>
                                 </div>
