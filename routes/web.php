@@ -20,6 +20,8 @@ Route::middleware(['guest'])->group(function () {
     Route::livewire('/login', 'pages::auth.login')->name('auth.login');
 });
 Route::livewire('/report-center', 'pages::panitia.report-center')->name('report.center');
+Route::livewire('/ots-registration', 'pages::ots-qr-code')->name('ots.register');
+Route::livewire('/pass/{uuid}', 'pages::digital-card')->name('eid.pass');
 
 Route::middleware('auth')->group(function () {
     Route::livewire('/panel', 'pages::participant.dashboard')->name('participant.dashboard');

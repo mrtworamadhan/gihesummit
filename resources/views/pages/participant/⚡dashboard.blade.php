@@ -161,7 +161,7 @@ new #[Layout('layouts::app')] class extends Component
             <div class="bg-gradient-to-b from-[#12241C] to-[#2B2D26] rounded-xl shadow-xl p-6 text-center border-t-4 border-[#C0A062]">
                 <h2 class="text-[#C0A062] font-bold tracking-widest uppercase text-xs mb-1">GIHES 2026 Official Pass</h2>
                 <div class="bg-white p-3 rounded-lg mx-auto w-40 h-40 flex items-center justify-center shadow-inner my-4">
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data={{ $user->id }}-GIHES2026" alt="QR Code" class="w-full h-full object-contain">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data={{ $user->participant->uuid_barcode }}" alt="QR Code" class="w-full h-full object-contain">
                 </div>
                 <h3 class="text-xl font-black text-white mb-1">{{ $user->name }}</h3>
                 <p class="text-[#C0A062] text-xs font-bold uppercase">{{ $user->institution_name }}</p>

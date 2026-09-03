@@ -2,7 +2,10 @@
 
 namespace App\Filament\Resources\Registrations\Tables;
 
+use App\Jobs\SendEidWhatsAppJob;
 use App\Models\Room;
+use Filament\Actions\Action;
+use Filament\Actions\BulkAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -11,6 +14,7 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Collection;
 
 class RegistrationsTable
 {
@@ -90,13 +94,64 @@ class RegistrationsTable
                 // Filter dropdown tidak terlalu butuh karena kita sudah pakai Tabs di atas
             ])
             ->recordActions([
+                Action::make('send_wa_eid')
+                    ->label('Kirim E-Pass')
+                    ->icon('heroicon-o-paper-airplane')
+                    ->color('success')
+                    
+                    // CEK LUNAS: Langsung ke relasi payment karena ini Registration model
+                    ->visible(fn ($record) => $record->payment?->payment_status === 'paid')
+                    
+                    ->requiresConfirmation()
+                    ->modalHeading('Kirim E-Pass via WhatsApp')
+                    ->modalDescription('Kirimkan link Digital ID Card ke nomor WA peserta ini?')
+                    ->action(function ($record) {
+                        SendEidWhatsAppJob::dispatchSync($record->participant);
+                    })
+                    ->successNotificationTitle('Pesan WA berhasil dikirim!'),
                 EditAction::make(),
                 ViewAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
-                    
+                    BulkAction::make('blast_wa_eid')
+                        ->label('Blast E-Pass Masal')
+                        ->icon('heroicon-o-megaphone')
+                        ->color('warning')
+                        ->requiresConfirmation()
+                        ->modalHeading('Blast E-Pass via WhatsApp')
+                        ->modalDescription('PENTING: Sistem secara otomatis HANYA akan mengirim WA kepada peserta yang status pembayarannya sudah PAID. Peserta Pending akan diabaikan.')
+                        ->action(function (Collection $records) {
+                            
+                            $validRecords = $records->filter(function ($record) {
+                                return $record->payment?->payment_status === 'paid';
+                            });
+
+                            if ($validRecords->isEmpty()) {
+                                \Filament\Notifications\Notification::make()
+                                    ->title('Proses Dibatalkan')
+                                    ->body('Dari data yang Anda pilih, belum ada peserta dengan status pembayaran PAID.')
+                                    ->warning()
+                                    ->send();
+                                return;
+                            }
+                            
+                            $delayInSeconds = 0;
+                            
+                            foreach ($validRecords as $record) {
+                                SendEidWhatsAppJob::dispatch($record->participant)->delay(now()->addSeconds($delayInSeconds));
+                                $delayInSeconds += 10;
+                            }
+
+                            \Filament\Notifications\Notification::make()
+                                ->title('Blasting Berjalan!')
+                                ->body("Berhasil memasukkan {$validRecords->count()} peserta LUNAS ke dalam antrean WA.")
+                                ->success()
+                                ->send();
+
+                        })
+                        ->deselectRecordsAfterCompletion(),
                 ]),
             ]);
     }

@@ -7,6 +7,7 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\TextInputColumn;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -18,9 +19,16 @@ class RoomsTable
         return $table
             ->columns([
                 TextColumn::make('room_number')
-                    ->label('Room Number')
+                    ->label('Nomor Kamar')
                     ->searchable()
-                    ->weight('bold'),
+                    ->sortable()
+                    ->visible(fn ($livewire) => ! (isset($livewire->isQuickEdit) && $livewire->isQuickEdit)),
+
+                TextInputColumn::make('room_number_edit')
+                    ->label('Nomor Kamar (Mode Edit)')
+                    ->getStateUsing(fn ($record) => $record->room_number) 
+                    ->updateStateUsing(fn ($record, $state) => $record->update(['room_number' => $state]))
+                    ->visible(fn ($livewire) => isset($livewire->isQuickEdit) && $livewire->isQuickEdit),
                     
                 TextColumn::make('type')
                     ->label('Type')
