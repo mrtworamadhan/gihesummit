@@ -22,6 +22,7 @@ Route::middleware(['guest'])->group(function () {
 Route::livewire('/report-center', 'pages::panitia.report-center')->name('report.center');
 Route::livewire('/ots-registration', 'pages::ots-qr-code')->name('ots.register');
 Route::livewire('/pass/{uuid}', 'pages::digital-card')->name('eid.pass');
+Route::livewire('/gatekeeper/{token}', 'pages::panitia.gate-keeper')->name('gatekeeper.scan');
 
 Route::middleware('auth')->group(function () {
     Route::livewire('/panel', 'pages::participant.dashboard')->name('participant.dashboard');
@@ -32,7 +33,7 @@ Route::middleware('auth')->group(function () {
     Route::livewire('/panel/schedule', 'pages::participant.schedule')->name('panel.schedule');
     Route::livewire('/panel/gallery', 'pages::participant.gallery')->name('panel.gallery');
     Route::livewire('/panel/certificate', 'pages::participant.certificate')->name('panel.certificate');
-    Route::livewire('/gatekeeper/{token}', 'pages::panitia.gate-keeper')->name('gatekeeper.scan');
+    
 
 
     Route::post('/logout', function () {
