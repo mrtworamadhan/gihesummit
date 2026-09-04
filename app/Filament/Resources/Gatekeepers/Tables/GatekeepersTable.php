@@ -59,7 +59,7 @@ class GatekeepersTable
 
                         // Tembak ke API Fonnte
                         $response = Http::withHeaders([
-                            'Authorization' => 'eYx7Pa6K2xiSE4s9aQxo'
+                            'Authorization' => 'HEPveJtJ7oBEwKdJxDM4'
                         ])->post('https://api.fonnte.com/send', [
                             'target' => $record->whatsapp,
                             'message' => $pesan,

@@ -34,7 +34,7 @@ class SendEidWhatsAppJob implements ShouldQueue
             . "Salam,\n*Panitia GIHES 2026*";
 
         Http::withHeaders([
-            'Authorization' => 'eYx7Pa6K2xiSE4s9aQxo'
+            'Authorization' => 'HEPveJtJ7oBEwKdJxDM4'
         ])->post('https://api.fonnte.com/send', [
             'target' => $this->participant->phone ?? $this->participant->user->whatsapp,
             'message' => $pesan,
