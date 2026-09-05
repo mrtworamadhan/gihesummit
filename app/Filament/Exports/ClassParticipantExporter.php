@@ -7,6 +7,7 @@ use Filament\Actions\Exports\ExportColumn;
 use Filament\Actions\Exports\Exporter;
 use Filament\Actions\Exports\Models\Export;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Log;
 
 class ClassParticipantExporter extends Exporter
 {
@@ -14,21 +15,29 @@ class ClassParticipantExporter extends Exporter
 
     public static function modifyQuery(Builder $query): Builder
     {
-        return $query
-            // FIX: Paksa query hanya mengambil kolom dari tabel registrations 
-            // agar kolom 'id' tidak bentrok dengan tabel relasi/pivot
-            ->select($query->getModel()->getTable() . '.*')
-            
-            // Reorder wajib ditambahkan agar chunking Laravel tidak bingung
-            ->reorder($query->getModel()->getTable() . '.' . $query->getModel()->getKeyName())
-            
-            ->with([
-                'participant.user',
-                'payment',
-                'room'
-            ]);
-    }
+        try {
+            $query = $query->select($query->getModel()->getTable() . '.*')
+                ->reorder($query->getModel()->getTable() . '.' . $query->getModel()->getKeyName())
+                ->with([
+                    'participant.user',
+                    'payment',
+                    'room'
+                ]);
 
+            // CATAT KE LOG: Cek apakah query-nya berhasil dirakit
+            Log::info('Berhasil merakit query Export Kelas', [
+                'sql' => $query->toSql(),
+            ]);
+
+            return $query;
+
+        } catch (\Exception $e) {
+            // TANGKAP ERROR: Akan tercatat di storage/logs/laravel.log
+            Log::error('GAGAL EXPORT KELAS: ' . $e->getMessage());
+            throw $e;
+        }
+    }
+    
     public static function getColumns(): array
     {
         return [

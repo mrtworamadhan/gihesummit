@@ -21,4 +21,5 @@ class AttendanceLog extends Model
     {
         return $this->belongsTo(Registration::class);
     }
+
 }
