@@ -14,11 +14,19 @@ class ClassParticipantExporter extends Exporter
 
     public static function modifyQuery(Builder $query): Builder
     {
-        return $query->select('registrations.*')->with([
-            'participant.user',
-            'payment',
-            'room'
-        ]);
+        return $query
+            // FIX: Paksa query hanya mengambil kolom dari tabel registrations 
+            // agar kolom 'id' tidak bentrok dengan tabel relasi/pivot
+            ->select($query->getModel()->getTable() . '.*')
+            
+            // Reorder wajib ditambahkan agar chunking Laravel tidak bingung
+            ->reorder($query->getModel()->getTable() . '.' . $query->getModel()->getKeyName())
+            
+            ->with([
+                'participant.user',
+                'payment',
+                'room'
+            ]);
     }
 
     public static function getColumns(): array

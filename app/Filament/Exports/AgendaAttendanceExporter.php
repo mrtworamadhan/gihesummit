@@ -15,11 +15,18 @@ class AgendaAttendanceExporter extends Exporter
 
     public static function modifyQuery(Builder $query): Builder
     {
-        return $query->with([
-            'participant.user',
-            'participant.registration.room', // <-- TAMBAHKAN BARIS INI
-            'agenda',
-        ]);
+        return $query
+            // FIX: Paksa query hanya mengambil kolom dari tabel presensi
+            ->select($query->getModel()->getTable() . '.*')
+            
+            // Reorder wajib ditambahkan agar chunking aman
+            ->reorder($query->getModel()->getTable() . '.' . $query->getModel()->getKeyName())
+            
+            ->with([
+                'participant.user',
+                'participant.registration.room',
+                'agenda',
+            ]);
     }
 
     public static function getColumns(): array
