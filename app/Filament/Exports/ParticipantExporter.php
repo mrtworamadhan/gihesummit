@@ -2,24 +2,27 @@
 
 namespace App\Filament\Exports;
 
-use App\Models\Participant;
+use App\Models\Participant; // Model yang benar
 use App\Models\User;
 use Filament\Actions\Exports\ExportColumn;
 use Filament\Actions\Exports\Exporter;
 use Filament\Actions\Exports\Models\Export;
-use Illuminate\Support\Facades\Log; // <-- WAJIB IMPORT INI
+use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\Builder;
 use Throwable;
 
 class ParticipantExporter extends Exporter
 {
-    protected static ?string $model = User::class;
+    // 1. UBAH KE PARTICIPANT
+    protected static ?string $model = Participant::class; 
 
     public static function modifyQuery(Builder $query): Builder
     {
+        // 2. LOAD RELASI BERSARANG (NESTED) SECARA EKSPLISIT
         return $query->with([
             'user',
-            'registration',
+            'registration.room',    // <-- Wajib agar room_number terbaca
+            'registration.payment', // <-- Wajib agar payment_status terbaca
         ]);
     }
 
@@ -33,11 +36,14 @@ class ParticipantExporter extends Exporter
             ExportColumn::make('user.whatsapp')->label('No. WhatsApp'),
             ExportColumn::make('user.nationality')->label('Kewarganegaraan'),
             ExportColumn::make('user.institution_name')->label('Instansi'),
+            
             ExportColumn::make('type_of_institution')->label('Type Instansi'),
             ExportColumn::make('position_title')->label('Posisi/Jabatan'),
+            
             ExportColumn::make('registration.room_type_preference')->label('Pilihan Kamar'),
             ExportColumn::make('registration.room.room_number')->label('Nomor Kamar'),
             ExportColumn::make('registration.payment.payment_status')->label('Status Bayar'),
+            
             ExportColumn::make('registration.preferred_working_group')->label('Minat'),
             ExportColumn::make('registration.willingness_to_cosign_declaration')->label('Kesediaan TTD Deklarasi'),
             ExportColumn::make('registration.needs_accommodation_assist')->label('Asistensi Akomodasi'),

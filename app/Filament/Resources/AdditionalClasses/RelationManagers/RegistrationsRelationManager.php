@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\AdditionalClasses\RelationManagers;
 
+use App\Filament\Exports\ClassParticipantExporter;
 use Filament\Actions\AttachAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\CreateAction;
@@ -10,6 +11,7 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\DetachAction;
 use Filament\Actions\DetachBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Actions\ExportAction;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -19,6 +21,7 @@ use Filament\Schemas\Schema;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class RegistrationsRelationManager extends RelationManager
 {
@@ -35,6 +38,10 @@ class RegistrationsRelationManager extends RelationManager
     {
         return $table
             ->recordTitleAttribute('id')
+            
+            ->modifyQueryUsing(fn (Builder $query) => $query->whereHas('payment', function ($q) {
+                $q->where('payment_status', 'paid');
+            }))
             ->columns([
                 TextColumn::make('participant.user.name')
                     ->label('Nama Peserta')
@@ -62,6 +69,11 @@ class RegistrationsRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
+                ExportAction::make()
+                    ->exporter(ClassParticipantExporter::class)
+                    ->label('Export Data Kelas')
+                    ->color('success')
+                    ->icon('heroicon-o-document-arrow-down'),
                 AttachAction::make()
                     ->label('Tambahkan Peserta')
                     ->icon('heroicon-o-user-plus')

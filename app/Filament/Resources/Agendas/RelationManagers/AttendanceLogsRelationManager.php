@@ -2,12 +2,14 @@
 
 namespace App\Filament\Resources\Agendas\RelationManagers;
 
+use App\Filament\Exports\AgendaAttendanceExporter;
 use App\Filament\Resources\Agendas\AgendaResource;
 use Filament\Actions\BulkAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\CreateAction;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\ExportAction;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
@@ -78,8 +80,11 @@ class AttendanceLogsRelationManager extends RelationManager
                     ]),
             ])
             ->headerActions([
-                // Kita matikan tombol Create karena log harusnya masuk dari HP petugas
-                // Tables\Actions\CreateAction::make(), 
+                ExportAction::make()
+                    ->exporter(AgendaAttendanceExporter::class)
+                    ->label('Export Kehadiran')
+                    ->color('success')
+                    ->icon('heroicon-o-document-arrow-down'),
             ])
             ->actions([
                 // Kita berikan fitur hapus, jaga-jaga kalau petugas salah scan
