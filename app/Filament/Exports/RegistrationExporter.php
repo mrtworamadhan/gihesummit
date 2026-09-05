@@ -14,8 +14,7 @@ class ClassParticipantExporter extends Exporter
 
     public static function modifyQuery(Builder $query): Builder
     {
-        // Load relasi agar data tertarik sempurna
-        return $query->with([
+        return $query->select('registrations.*')->with([
             'participant.user',
             'payment',
             'room'
