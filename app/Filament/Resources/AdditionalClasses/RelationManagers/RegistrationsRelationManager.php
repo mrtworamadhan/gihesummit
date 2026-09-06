@@ -34,6 +34,14 @@ class RegistrationsRelationManager extends RelationManager
         return $form->schema([]);
     }
 
+    public function getParticipantDetailsAttribute()
+    {
+        $name = $this->participant?->user?->name ?? 'Tanpa Nama';
+        $instansi = $this->participant?->user?->institution_name ?? 'Tanpa Instansi';
+        
+        return "{$name} - {$instansi}";
+    }
+
     public function table(Table $table): Table
     {
         return $table
@@ -81,21 +89,19 @@ class RegistrationsRelationManager extends RelationManager
                     ->multiple()
                     ->preloadRecordSelect()
                     
+                    // 2. KOLOM PENCARIAN
                     ->recordSelectSearchColumns([
                         'participant.user.name',
-                        'participant.institution_name'
+                        'participant.user.institution_name'
                     ])
-                    ->recordSelectOptionsQuery(fn (Builder $query) => 
-                        $query->whereHas('payment', function ($q) {
-                            $q->where('payment_status', 'paid');
-                        })
-                    )
-
-                    ->recordSelect(
-                        fn (Select $select) => $select->getOptionLabelFromRecordUsing(
-                            fn ($record) => ($record->participant?->user?->name ?? 'Unknown') . ' - ' . 
-                                            ($record->participant?->institution_name ?? 'No Institution')
-                        )
+                    
+                    // 3. QUERY OPTIONS (Filter Lunas & Load Relasi)
+                    ->recordSelectOptionsQuery(fn (\Illuminate\Database\Eloquent\Builder $query) => 
+                        $query
+                            ->with(['participant.user']) // WAJIB: Agar nama langsung muncul dan tidak lemot
+                            ->whereHas('payment', function ($q) {
+                                $q->where('payment_status', 'paid');
+                            })
                     )
             ])
             ->recordActions([
