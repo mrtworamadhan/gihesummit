@@ -47,6 +47,31 @@ class RegistrationsTable
                         default => 'gray',
                     }),
 
+                SelectColumn::make('agenda_class') // Nama bebas karena ini kolom virtual
+                    ->label('Assign Kelas')
+                    ->options(function () {
+                        // Ambil semua opsi kelas. 
+                        // Ganti 'AdditionalClass' jika nama model kamu adalah 'Agenda'
+                        return \App\Models\AdditionalClass::pluck('name', 'id');
+                    })
+                    ->getStateUsing(function ($record) {
+                        // Tarik ID kelas pertama yang terdaftar di tabel pivot
+                        return $record->additionalClasses->first()?->id;
+                    })
+                    ->updateStateUsing(function ($record, $state) {
+                        // Saat panitia mengubah pilihan di tabel, timpa data pivotnya 
+                        // menggunakan sync() agar memastikan hanya ada 1 kelas yang tersimpan
+                        if ($state) {
+                            $record->additionalClasses()->sync([$state]);
+                        } else {
+                            // Jika panitia mengosongkan pilihan
+                            $record->additionalClasses()->detach();
+                        }
+                    })
+                    // Tetap lindungi kolom ini agar hanya peserta lunas yang bisa di-assign
+                    ->disabled(fn ($record) => $record->payment?->payment_status !== 'paid')
+                    ->sortable(false),
+
                 TextColumn::make('room_type_preference')
                     ->label('Tipe Kamar')
                     ->badge()
