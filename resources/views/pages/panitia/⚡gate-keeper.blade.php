@@ -64,7 +64,8 @@ new #[Layout('layouts::gatekeeper')] class extends Component
         }
 
         $agenda = Agenda::find($this->selected_agenda_id);
-        $registration = Registration::with(['participant.user', 'room', 'payment'])->find($registrationId);
+        // TAMBAHAN: Load relasi additionalClasses
+        $registration = Registration::with(['participant.user', 'room', 'payment', 'additionalClasses'])->find($registrationId);
         
         if($registration) {
             $this->validateAndRecord($registration, $agenda);
@@ -82,7 +83,8 @@ new #[Layout('layouts::gatekeeper')] class extends Component
 
         $agenda = Agenda::find($this->selected_agenda_id);
         
-        $participant = Participant::with(['user', 'registration.room', 'registration.payment'])
+        // TAMBAHAN: Load relasi registration.additionalClasses
+        $participant = Participant::with(['user', 'registration.room', 'registration.payment', 'registration.additionalClasses'])
                                   ->where('uuid_barcode', $qrData)
                                   ->first();
 
@@ -118,9 +120,11 @@ new #[Layout('layouts::gatekeeper')] class extends Component
             }
         } 
         elseif ($agenda->type === 'class') {
-            $hasClass = $registration->additionalClasses()->where('additional_classes.id', $agenda->additional_class_id)->exists();
+            // Cek langsung dari data yang sudah di-load agar lebih cepat
+            $hasClass = $registration->additionalClasses->contains('id', $agenda->additional_class_id);
+            
             if (!$hasClass && $registration->role_at_summit !== 'Special Guest') {
-                $this->promptForceAccept($registration, 'Tidak terdaftar di kelas tambahan ini.');
+                $this->promptForceAccept($registration, 'SALAH KELAS / RUANGAN!');
                 return;
             }
         }
@@ -128,6 +132,7 @@ new #[Layout('layouts::gatekeeper')] class extends Component
         $this->previewAttendance($registration, $agenda);
     }
 
+    
     private function previewAttendance($registration, $agenda)
     {
         $info = [
@@ -218,6 +223,22 @@ new #[Layout('layouts::gatekeeper')] class extends Component
     private function promptForceAccept($registration, $reason)
     {
         $this->pendingRegistrationId = $registration->id;
+        
+        // Tampilkan info peserta MESKIPUN DITOLAK, agar petugas bisa menyapa namanya
+        $info = [
+            'name' => $registration->participant?->user?->name ?? 'Nama Tidak Diketahui',
+            'institution' => $registration->participant?->user?->institution_name ?? '-',
+            'role' => $registration->role_at_summit ?? 'Participant',
+        ];
+
+        // Jika data kelas tersedia (berarti dia ditolak karena urusan kelas), tarik nama kelasnya
+        if ($registration->relationLoaded('additionalClasses')) {
+            $enrolled = $registration->additionalClasses->pluck('name')->implode(', ');
+            $info['correct_class'] = $enrolled ?: 'Tidak memilih kelas manapun';
+        }
+
+        $this->participantInfo = $info;
+
         $this->showAlert('danger', "DITOLAK: {$reason}");
     }
 
@@ -342,6 +363,7 @@ new #[Layout('layouts::gatekeeper')] class extends Component
                         <p class="text-gray-300">Instansi: <span class="font-bold text-white">{{ $participantInfo['institution'] }}</span></p>
                         <p class="text-gray-300">Tipe: <span class="font-bold text-white">{{ $participantInfo['role'] }}</span></p>
                         
+                        <!-- INFO KAMAR (Muncul Saat Check-In) -->
                         @if(isset($participantInfo['room_number']))
                             <div class="mt-3 pt-3 border-t border-white/20">
                                 <p class="text-xs text-gray-400 uppercase tracking-wider mb-1">Informasi Kamar</p>
@@ -349,6 +371,14 @@ new #[Layout('layouts::gatekeeper')] class extends Component
                                 @if(isset($participantInfo['roommate']))
                                     <p class="text-gray-300">Sekamar dengan: <span class="font-bold text-white">{{ $participantInfo['roommate'] }}</span></p>
                                 @endif
+                            </div>
+                        @endif
+
+                        <!-- INFO KELAS (Muncul Saat Ditolak di Ruang Kelas) -->
+                        @if(isset($participantInfo['correct_class']) && $scanStatus === 'danger')
+                            <div class="mt-3 pt-3 border-t border-red-500/30">
+                                <p class="text-xs text-red-400 uppercase tracking-wider mb-1">Seharusnya Masuk Ke:</p>
+                                <p class="text-white font-bold text-lg leading-tight">{{ $participantInfo['correct_class'] }}</p>
                             </div>
                         @endif
                     </div>
