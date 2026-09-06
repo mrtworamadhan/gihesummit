@@ -80,6 +80,17 @@ class RegistrationsRelationManager extends RelationManager
                     ->color('primary')
                     ->multiple()
                     ->preloadRecordSelect()
+                    
+                    ->recordSelectSearchColumns([
+                        'participant.user.name',
+                        'participant.institution_name'
+                    ])
+                    ->recordSelectOptionsQuery(fn (Builder $query) => 
+                        $query->whereHas('payment', function ($q) {
+                            $q->where('payment_status', 'paid');
+                        })
+                    )
+
                     ->recordSelect(
                         fn (Select $select) => $select->getOptionLabelFromRecordUsing(
                             fn ($record) => ($record->participant?->user?->name ?? 'Unknown') . ' - ' . 
