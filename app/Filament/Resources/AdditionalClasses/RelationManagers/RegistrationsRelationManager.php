@@ -89,16 +89,18 @@ class RegistrationsRelationManager extends RelationManager
                     ->multiple()
                     ->preloadRecordSelect()
                     
-                    // 2. KOLOM PENCARIAN
-                    ->recordSelectSearchColumns([
-                        'participant.user.name',
-                        'participant.user.institution_name'
-                    ])
+                    // 1. FUNGSI AJAIB: Memaksa Filament mengubah tampilan ID menjadi Nama - Instansi
+                    ->recordTitle(function ($record) {
+                        $name = $record->participant?->user?->name ?? 'Tanpa Nama';
+                        $instansi = $record->participant?->user?->institution_name ?? 'Tanpa Instansi';
+                        
+                        return "{$name} - {$instansi}";
+                    })
                     
-                    // 3. QUERY OPTIONS (Filter Lunas & Load Relasi)
+                    // 2. QUERY OPTIONS: Filter Lunas & Load Relasi agar prosesnya super cepat (tidak N+1)
                     ->recordSelectOptionsQuery(fn (\Illuminate\Database\Eloquent\Builder $query) => 
                         $query
-                            ->with(['participant.user']) // WAJIB: Agar nama langsung muncul dan tidak lemot
+                            ->with(['participant.user']) 
                             ->whereHas('payment', function ($q) {
                                 $q->where('payment_status', 'paid');
                             })
