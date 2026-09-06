@@ -90,7 +90,7 @@ new #[Layout('layouts::monitor')] class extends Component
                 </div>
                 <div>
                     <h4 class="text-red-400 font-bold text-lg">SECURITY ALERT</h4>
-                    <p class="text-sm text-gray-300">Terdapat <strong>{{ $forceAcceptCount }} peserta</strong> yang dimasukkan melewati batas keamanan sistem (Jalur Force Accept/Bypass). Silakan cek log untuk validasi silang.</p>
+                    <p class="text-sm text-gray-300">Terdapat <strong>{{ $this->forceAcceptCount }} peserta</strong> yang dimasukkan melewati batas keamanan sistem (Jalur Force Accept/Bypass). Silakan cek log untuk validasi silang.</p>
                 </div>
             </div>
             @endif
