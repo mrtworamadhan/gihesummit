@@ -726,7 +726,7 @@
 
             <div class="w-full flex justify-center">
                 <img 
-                    src="{{ asset('images/sponsor.png') }}" 
+                    src="{{ asset('images/sponsor-rev.png') }}" 
                     alt="GIHES 2026 Sponsor" 
                     class="w-full h-auto object-contain rounded-xl shadow-xl hover:shadow-2xl transition-shadow duration-300"
                 >
